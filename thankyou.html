@@ -8,6 +8,49 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="shortcut icon" href="img/photo_2025-08-26_21-.jpg" type="image/x-icon" />
+
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=103770448', 'ym');
+    ym(103770448, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/103770448" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1264186965731500');
+  fbq('track', 'PageView');
+  fbq('track', 'Lead');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1264186965731500&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17671595147"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-17671595147');
+    gtag('event', 'conversion', {'send_to': 'AW-17671595147/thank_you_page'});
+  </script>
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -20,14 +63,15 @@
       overflow-x: hidden;
     }
 
-    /* ---- HEADER ---- */
-    header {
+    /* ---- HEADER (matches main site) ---- */
+    .da-header {
       position: fixed;
       top: 0; left: 0; width: 100%;
       z-index: 100;
       pointer-events: none;
     }
-    .header-inner {
+    .da-header-inner {
+      position: relative;
       width: min(1560px, calc(100% - 72px));
       margin: 0 auto;
       padding: 18px 0 0;
@@ -37,6 +81,18 @@
       column-gap: 24px;
       pointer-events: auto;
     }
+    .da-header-inner::before {
+      content: "";
+      position: absolute;
+      inset: 0 -24px auto;
+      height: 78px;
+      background: rgba(0,0,0,.72);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      border-radius: 0 0 16px 16px;
+      z-index: -1;
+    }
     .brand-logo {
       width: 140px; height: 74px;
       background-repeat: no-repeat;
@@ -45,8 +101,12 @@
       background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAY4AAAHTCAYAAAAwFP9VAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGwSURBVHgB7cExAQAAAMKg9U9tDB+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAeAMBuAABHQAAAABJRU5ErkJggg==");
       display: block;
     }
+    .da-header-cta {
+      display: flex;
+      justify-content: flex-end;
+    }
 
-    /* ---- HERO ---- */
+    /* ---- PAGE ---- */
     .page {
       min-height: 100vh;
       display: flex;
@@ -57,7 +117,7 @@
       overflow: hidden;
     }
 
-    /* Glow background */
+    /* Animated glow */
     .page::before {
       content: "";
       position: absolute;
@@ -67,6 +127,41 @@
       background: radial-gradient(circle, rgba(255,90,10,.18) 0%, transparent 70%);
       pointer-events: none;
       z-index: 0;
+      animation: glowPulse 4s ease-in-out infinite;
+    }
+    @keyframes glowPulse {
+      0%, 100% { opacity: .7; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+    }
+
+    /* Particles */
+    .particles {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .particle {
+      position: absolute;
+      width: 2px; height: 2px;
+      background: rgba(255,90,10,.4);
+      border-radius: 50%;
+      animation: floatUp linear infinite;
+    }
+    .particle:nth-child(1) { left: 10%; animation-duration: 12s; animation-delay: 0s; }
+    .particle:nth-child(2) { left: 20%; animation-duration: 10s; animation-delay: 2s; width: 3px; height: 3px; }
+    .particle:nth-child(3) { left: 35%; animation-duration: 14s; animation-delay: 4s; }
+    .particle:nth-child(4) { left: 50%; animation-duration: 11s; animation-delay: 1s; width: 3px; height: 3px; }
+    .particle:nth-child(5) { left: 65%; animation-duration: 13s; animation-delay: 3s; }
+    .particle:nth-child(6) { left: 78%; animation-duration: 9s; animation-delay: 5s; width: 4px; height: 4px; }
+    .particle:nth-child(7) { left: 88%; animation-duration: 15s; animation-delay: 2s; }
+    .particle:nth-child(8) { left: 45%; animation-duration: 11s; animation-delay: 6s; width: 3px; height: 3px; }
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) scale(0); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100px) scale(1); opacity: 0; }
     }
 
     .content {
@@ -74,6 +169,11 @@
       z-index: 1;
       text-align: center;
       max-width: 680px;
+      animation: fadeInUp .8s ease-out;
+    }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
 
     .icon-wrap {
@@ -87,10 +187,7 @@
       margin-bottom: 40px;
       animation: pulse 2.5s ease-in-out infinite;
     }
-    .icon-wrap svg {
-      width: 44px; height: 44px;
-    }
-
+    .icon-wrap svg { width: 44px; height: 44px; }
     @keyframes pulse {
       0%, 100% { box-shadow: 0 0 0 0 rgba(255,90,10,.35); }
       50%       { box-shadow: 0 0 0 20px rgba(255,90,10,0); }
@@ -103,6 +200,12 @@
       line-height: 1;
       margin-bottom: 24px;
       color: #f2f2f2;
+    }
+    h1 span {
+      background: linear-gradient(135deg, #ff5a0a 0%, #ff8a4a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .sub {
@@ -134,7 +237,7 @@
       line-height: 1;
       white-space: nowrap;
       text-decoration: none;
-      transition: .22s ease;
+      transition: all .22s ease;
       cursor: pointer;
       border: none;
     }
@@ -142,41 +245,108 @@
       background: #ff5a0a;
       color: #fff;
     }
-    .btn-primary:hover { background: #ff6a22; }
+    .btn-primary:hover {
+      background: #ff6a22;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(255,90,10,.3);
+    }
     .btn-outline {
       background: transparent;
       border: 1px solid rgba(255,255,255,.22);
       color: #fff;
     }
-    .btn-outline:hover { border-color: rgba(255,255,255,.5); background: rgba(255,255,255,.04); }
+    .btn-outline:hover {
+      border-color: rgba(255,255,255,.5);
+      background: rgba(255,255,255,.04);
+      transform: translateY(-2px);
+    }
 
-    /* countdown */
+    .divider {
+      width: 60px;
+      height: 1px;
+      background: rgba(255,255,255,.12);
+      margin: 36px auto 28px;
+    }
+
     .redirect-note {
-      margin-top: 28px;
       font-size: 13px;
       color: rgba(255,255,255,.35);
     }
     #countdown { color: rgba(255,90,10,.8); font-weight: 600; }
 
+    .progress-bar {
+      width: 200px;
+      height: 2px;
+      background: rgba(255,255,255,.08);
+      border-radius: 2px;
+      margin: 16px auto 0;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ff5a0a, #ff8a4a);
+      border-radius: 2px;
+      animation: progressShrink 8s linear forwards;
+    }
+    @keyframes progressShrink {
+      0% { width: 100%; }
+      100% { width: 0%; }
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 0; left: 0; width: 100%;
+      padding: 24px;
+      text-align: center;
+      z-index: 1;
+    }
+    .footer-text {
+      font-size: 12px;
+      color: rgba(255,255,255,.2);
+      letter-spacing: .05em;
+    }
+
     @media (max-width: 640px) {
-      .header-inner { width: calc(100% - 28px); grid-template-columns: 96px 1fr; padding-top: 12px; }
+      .da-header-inner {
+        width: calc(100% - 28px);
+        grid-template-columns: 96px 1fr;
+        padding-top: 12px;
+      }
+      .da-header-inner::before { height: 64px; }
       .brand-logo { width: 80px; height: 44px; }
+      .da-header-cta .btn { min-height: 44px; padding: 0 16px; font-size: 13px; }
       .actions { flex-direction: column; }
       .btn { width: 100%; }
+      .page { padding: 120px 20px 80px; }
     }
   </style>
 </head>
 <body>
 
-<header>
-  <div class="header-inner">
+<header class="da-header">
+  <div class="da-header-inner">
     <a href="index.html" aria-label="DA Agency">
       <span class="brand-logo"></span>
     </a>
+    <div></div>
+    <div class="da-header-cta">
+      <a href="index.html" class="btn btn-primary">На главную</a>
+    </div>
   </div>
 </header>
 
 <main class="page">
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
   <div class="content">
     <div class="icon-wrap">
       <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -185,9 +355,9 @@
       </svg>
     </div>
 
-    <h1>Заявка принята!</h1>
+    <h1>Заявка <span>принята!</span></h1>
     <p class="sub">
-      Мы получили вашу заявку и свяжемся с вами в&nbsp;течение рабочего дня. Готовимся к знакомству!
+      Мы получили вашу заявку и&nbsp;свяжемся с&nbsp;вами в&nbsp;течение рабочего дня. Готовимся к&nbsp;знакомству!
     </p>
 
     <div class="actions">
@@ -195,11 +365,20 @@
       <a href="index.html#cases" class="btn btn-outline">Посмотреть кейсы</a>
     </div>
 
+    <div class="divider"></div>
+
     <p class="redirect-note">
       Автоматический переход через <span id="countdown">8</span> сек.
     </p>
+    <div class="progress-bar">
+      <div class="progress-bar-fill"></div>
+    </div>
   </div>
 </main>
+
+<footer class="footer">
+  <p class="footer-text">&copy; 2025 daAgency. Все права защищены.</p>
+</footer>
 
 <script>
   var n = 8;
