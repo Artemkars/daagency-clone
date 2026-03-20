@@ -188,7 +188,11 @@ daagency.kz
                 mode: 'no-cors'
             }).then(function() {
                 window.location.href = 'thankyou.html';
-            }).catch(function() {});
+            }).catch(function(e) {
+    alert('Fetch Error: ' + (e ? e.message : 'Unknown') + '\\n\\nPlease disable browser AdBlockers/Tracking Protection, as they often block Apix-Drive webhooks.');
+    setBtn(btn, 'Error Submit', false);
+    isSubmitting = false;
+});
         } catch (_) {}
 
         
@@ -228,6 +232,7 @@ daagency.kz
 
 })();
 </script></body> </html>
+
 
 
 
