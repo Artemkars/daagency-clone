@@ -61,17 +61,17 @@ document.addEventListener('DOMContentLoaded',t_setvisRecs);}})();</script>
     flex-wrap: nowrap !important;
     gap: 16px !important;
     padding-bottom: 24px !important;
-    margin-right: -24px !important;
-    padding-right: 24px !important;
-    scrollbar-width: none; /* Firefox */
+    scroll-padding: 0;
+    scrollbar-width: thin;
   }
   
   .da-cases-grid::-webkit-scrollbar, .da-services__grid::-webkit-scrollbar {
-    display: none; /* Chrome/Safari */
+    display: none;
   }
   
-  .da-case, .da-service-item {
-    flex: 0 0 88% !important;
+  /* Select all direct children regardless of class name to ensure 100% width enforce */
+  .da-cases-grid > *, .da-services__grid > * {
+    flex: 0 0 100% !important;
     scroll-snap-align: center !important;
     max-width: 100% !important;
   }
@@ -281,6 +281,7 @@ daagency.kz
 
 })();
 </script></body> </html>
+
 
 
 
