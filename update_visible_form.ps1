@@ -60,7 +60,7 @@ try{
     params.append('budget',budget.trim());
     params.append('source',window.location.href);
     params.append('timestamp',new Date().toISOString());
-    fetch('https://s7.apix-drive.com/web-hooks/33595/irzdht65',{method:'POST',body:params,mode:'no-cors'}).then(function(){window.location.href='thankyou.html';}).catch(function(){});
+    fetch('https://script.google.com/macros/s/AKfycbzMcAxJy5LPXQwpFRvSbBs_o95AGjG13MIJsffq8Fsh4qpWw-cXnFJGSpItlBtFKdPX/exec',{method:'POST',body:params,mode:'no-cors'}).then(function(){window.location.href='thankyou.html';}).catch(function(){});
 }catch(_){}
 "@
 
@@ -69,3 +69,4 @@ $html = $html -replace $jsOldSubmit, $jsNewSubmit
 Set-Content -Path "index.html" -Value $html -Encoding UTF8
 
 Write-Host "Success: Updated visible form fields and validation script in index.html"
+
