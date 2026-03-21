@@ -45,6 +45,10 @@ document.addEventListener('DOMContentLoaded',t_setvisRecs);}})();</script><style
     margin-left: 0 !important;
     position: relative !important;
   }
+  .da-process-results {
+    margin-bottom: 0 !important;
+    min-height: auto !important;
+  }
 
   /* Miniature Torus specific positioning on Mobile - Pushed BEHIND text */
   .da-first-screen .shell { position: relative; display: flex; flex-direction: column; }
@@ -52,14 +56,15 @@ document.addEventListener('DOMContentLoaded',t_setvisRecs);}})();</script><style
   .da-first-screen .content { z-index: 2; position: relative; }
   .da-first-screen .visual {
     position: absolute !important;
-    right: 5% !important;
-    top: 10% !important;
-    transform: scale(0.5) !important;
-    transform-origin: top right !important;
-    width: 180px !important;
-    height: 180px !important;
+    right: 0 !important;
+    top: 5% !important;
+    width: 108vw !important;
+    max-width: 108vw !important;
+    height: 108vw !important;
     margin: 0 !important;
-    z-index: 1 !important;
+    transform: scale(0.35) translateX(-25%) !important;
+    transform-origin: top right !important;
+    z-index: 0 !important;
     opacity: 0.8 !important;
     pointer-events: none;
   }
@@ -305,6 +310,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 </body> </html>
+
 
 
 
