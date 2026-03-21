@@ -300,6 +300,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     var art = tildaParent.querySelector('.t396__artboard');
                     if (art) { art.style.display = 'none'; }
                 }
+                // Fix native embedded negative margins on extracted blocks
+                el.style.marginBottom = '0';
+                el.style.marginTop = '0';
+                el.style.width = '100%';
+                el.style.maxWidth = '100%';
+                el.style.position = 'relative';
+                el.style.minHeight = 'auto';
             }
         });
         
@@ -310,6 +317,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 </body> </html>
+
 
 
 
