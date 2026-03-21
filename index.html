@@ -165,12 +165,86 @@ function validate(customForm) {var nameInput=customForm.querySelector('[name="na
 function triggerRealSubmit(tildaForm) {var submitBtn=tildaForm.querySelector('.t-submit, button[type="submit"], input[type="submit"]');if(submitBtn) {['mousedown','mouseup','click'].forEach(function(type) {try {submitBtn.dispatchEvent(new MouseEvent(type,{bubbles:true,cancelable:true,view:window}));} catch(_) {}});return true;}
 try {if(typeof tildaForm.requestSubmit==='function') {tildaForm.requestSubmit();return true;}} catch(_) {}
 try {return tildaForm.dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}));} catch(_) {return false;}}
-function bindCustomForm() {var customForm=document.querySelector('[data-da-form]');if(!customForm||customForm.__daBound) return;customForm.__daBound=true;var btn=customForm.querySelector('.da-contact__button');var defaultText=btn?btn.textContent:'Отправить заявку';function setBtn(text,disabled) {if(!btn) return;btn.textContent=text;btn.disabled=!!disabled;}
-function sendLead(e) {stopEvent(e);var tildaWrap=findTildaWrap();var tildaForm=findTildaForm();if(!tildaWrap||!tildaForm) {alert('Не найдена скрытая форма #rec1993423633 на этой странице');return false;};if(!validate(customForm)) {return false;}
-var name=(customForm.querySelector('[name="name"]')||{}).value||'';var email=(customForm.querySelector('[name="email"]')||{}).value||'';var phone=(customForm.querySelector('[name="phone"]')||{}).value||'';var budget=(customForm.querySelector('[name="budget"]')||{}).value||'';setFieldValue(tildaForm,'name',name.trim());setFieldValue(tildaForm,'email',email.trim());setFieldValue(tildaForm,'phone',phone.trim());setFieldValue(tildaForm,'budget',budget.trim());setBtn('Отправляем...',true);var submitted=triggerRealSubmit(tildaForm);if(!submitted) {setBtn(defaultText,false);alert('Не удалось отправить скрытую форму Тильды');return false;}
-setTimeout(function() {if(btn&&btn.disabled) {setBtn(defaultText,false);}},12000);return false;};if(btn) {btn.addEventListener('click',sendLead,true);btn.addEventListener('touchstart',sendLead,{capture:true,passive:false});}
-var inputs=customForm.querySelectorAll('input');inputs.forEach(function(input) {input.addEventListener('input',function() {input.classList.remove('is-error');});input.addEventListener('keydown',function(e) {if(e.key==='Enter') {sendLead(e);}},true);});document.addEventListener('tildaform:aftersuccess',function(e) {if(!e.target) return;if(!e.target.closest(TILDA_FORM_REC)) return;try {customForm.querySelectorAll('input').forEach(function(input) {input.value='';input.classList.remove('is-error');});} catch(_) {}
-window.location.href=THANKYOU_URL;});document.addEventListener('tildaform:aftererror',function(e) {if(!e.target) return;if(!e.target.closest(TILDA_FORM_REC)) return;setBtn(defaultText,false);});}
+function bindCustomForm() {
+  var WEBHOOK = 'https://s7.apix-drive.com/web-hooks/33558/gejbseaq';
+  var customForm = document.querySelector('[data-da-form]');
+  if (!customForm || customForm.__daBound) return;
+  customForm.__daBound = true;
+  var btn = customForm.querySelector('.da-contact__button');
+  var defaultText = btn ? btn.textContent : 'Отправить';
+
+  function setBtn(text, disabled) { if (!btn) return; btn.textContent = text; btn.disabled = !!disabled; }
+
+  // Phone mask
+  var phoneInput = customForm.querySelector('[name="phone"]');
+  if (phoneInput && !phoneInput.__masked) {
+    phoneInput.__masked = true;
+    phoneInput.addEventListener('input', function() {
+      var digits = this.value.replace(/\D/g, '').substring(0, 11);
+      if (digits.length === 0) { this.value = ''; return; }
+      var d = digits;
+      var formatted = '+' + d[0];
+      if (d.length > 1) formatted += ' (' + d.substring(1, 4);
+      if (d.length >= 4) formatted += ') ' + d.substring(4, 7);
+      if (d.length >= 7) formatted += '-' + d.substring(7, 9);
+      if (d.length >= 9) formatted += '-' + d.substring(9, 11);
+      this.value = formatted;
+    });
+    phoneInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Backspace' && this.value.length <= 2) this.value = '';
+    });
+  }
+
+  // Validation
+  function validate() {
+    var ok = true;
+    var nameInput = customForm.querySelector('[name="name"]');
+    var emailInput = customForm.querySelector('[name="email"]');
+    if (nameInput && !nameInput.value.trim()) { nameInput.classList.add('is-error'); ok = false; }
+    if (phoneInput && phoneInput.value.replace(/\D/g,'').length < 10) { phoneInput.classList.add('is-error'); ok = false; }
+    return ok;
+  }
+
+  function sendLead(e) {
+    stopEvent(e);
+    if (!validate()) return false;
+    var name = (customForm.querySelector('[name="name"]')||{}).value || '';
+    var email = (customForm.querySelector('[name="email"]')||{}).value || '';
+    var phone = (customForm.querySelector('[name="phone"]')||{}).value || '';
+    var budget = (customForm.querySelector('[name="budget"]')||{}).value || '';
+    setBtn('Отправляем...', true);
+    var fd = new FormData();
+    fd.append('name', name.trim());
+    fd.append('email', email.trim());
+    fd.append('phone', phone.trim());
+    fd.append('budget', budget.trim());
+    fetch(WEBHOOK, { method: 'POST', body: fd })
+      .then(function(r) {
+        if (r.ok) {
+          customForm.querySelectorAll('input').forEach(function(i){ i.value=''; i.classList.remove('is-error'); });
+          window.location.href = 'http://daagency.kz/thankyou';
+        } else {
+          setBtn(defaultText, false);
+          alert('Ошибка отправки (' + r.status + '). Попробуйте ещё раз.');
+        }
+      })
+      .catch(function() {
+        setBtn(defaultText, false);
+        alert('Ошибка сети. Проверьте соединение и попробуйте ещё раз.');
+      });
+    return false;
+  }
+
+  if (btn) {
+    btn.addEventListener('click', sendLead, true);
+    btn.addEventListener('touchstart', sendLead, {capture: true, passive: false});
+  }
+  var inputs = customForm.querySelectorAll('input');
+  inputs.forEach(function(input) {
+    input.addEventListener('input', function() { input.classList.remove('is-error'); });
+    input.addEventListener('keydown', function(e) { if(e.key==='Enter') sendLead(e); }, true);
+  });
+}
 function initAll() {initFaq();bindCustomForm();};if(document.readyState==='loading') {document.addEventListener('DOMContentLoaded',initAll);} else {initAll();}
 setTimeout(initAll,500);setTimeout(initAll,1200);setTimeout(initAll,2500);setTimeout(initAll,4500);})();</script> </div> </div> </div> </div> <script>t_onReady(function() {t_onFuncLoad('t396_init',function() {t396_init('1982841723');});});</script> <!-- /T396 --> </div> <div id="rec1983247343" class="r t-rec" style=" " data-animationappear="off" data-record-type="396"> <!-- T396 --> <style>#rec1983247343 .t396__artboard {height:80px;background-color:#ffffff;}#rec1983247343 .t396__filter {height:80px;}#rec1983247343 .t396__carrier{height:80px;background-position:center center;background-attachment:scroll;background-size:cover;background-repeat:no-repeat;}@media screen and (max-width:1199px) {#rec1983247343 .t396__artboard,#rec1983247343 .t396__filter,#rec1983247343 .t396__carrier {height:230px;}#rec1983247343 .t396__filter {}#rec1983247343 .t396__carrier {background-attachment:scroll;}}@media screen and (max-width:959px) {#rec1983247343 .t396__artboard,#rec1983247343 .t396__filter,#rec1983247343 .t396__carrier {height:230px;}#rec1983247343 .t396__filter {}#rec1983247343 .t396__carrier {background-attachment:scroll;}}@media screen and (max-width:639px) {#rec1983247343 .t396__artboard,#rec1983247343 .t396__filter,#rec1983247343 .t396__carrier {height:230px;}#rec1983247343 .t396__filter {}#rec1983247343 .t396__carrier {background-attachment:scroll;}}@media screen and (max-width:479px) {#rec1983247343 .t396__artboard,#rec1983247343 .t396__filter,#rec1983247343 .t396__carrier {height:230px;}#rec1983247343 .t396__filter {}#rec1983247343 .t396__carrier {background-attachment:scroll;}}#rec1983247343 .tn-elem[data-elem-id="1772468264364"]{z-index:3;top:0px;;left:calc(50% - 600px + -100px);;width:1400px;height:80px;}#rec1983247343 .tn-elem[data-elem-id="1772468264364"] .tn-atom{background-position:center center;border-width:var(--t396-borderwidth,0);border-style:var(--t396-borderstyle,solid);border-color:var(--t396-bordercolor,transparent);transition:background-color var(--t396-speedhover,0s) ease-in-out,color var(--t396-speedhover,0s) ease-in-out,border-color var(--t396-speedhover,0s) ease-in-out,box-shadow var(--t396-shadowshoverspeed,0.2s) ease-in-out;}@media screen and (max-width:1199px){#rec1983247343 .tn-elem[data-elem-id="1772468264364"]{display:table;}}@media screen and (max-width:959px){#rec1983247343 .tn-elem[data-elem-id="1772468264364"]{display:table;}}@media screen and (max-width:639px){#rec1983247343 .tn-elem[data-elem-id="1772468264364"]{display:table;}}@media screen and (max-width:479px){#rec1983247343 .tn-elem[data-elem-id="1772468264364"]{display:table;}}</style> <div class='t396'> <div class="t396__artboard" data-artboard-recid="1983247343" data-artboard-screens="320,480,640,960,1200" data-artboard-height="80" data-artboard-valign="center" data-artboard-upscale="grid" data-artboard-heightmode="hug" data-artboard-height-res-320="230" data-artboard-height-res-480="230" data-artboard-height-res-640="230" data-artboard-height-res-960="230"> <div class="t396__carrier" data-artboard-recid="1983247343"></div> <div class="t396__filter" data-artboard-recid="1983247343"></div> <div class='t396__elem tn-elem tn-elem__19832473431772468264364' data-elem-id='1772468264364' data-elem-type='html' data-field-top-value="0" data-field-left-value="-100" data-field-height-value="80" data-field-width-value="1400" data-field-axisy-value="top" data-field-axisx-value="left" data-field-container-value="grid" data-field-topunits-value="px" data-field-leftunits-value="px" data-field-heightunits-value="px" data-field-widthunits-value="px"> <div class='tn-atom tn-atom__html'> <style>.da-footer-clean,.da-footer-clean *{box-sizing:border-box;}.da-footer-clean{width:100vw;margin-left:calc(50% - 50vw);background:#000;border-top:1px solid rgba(255,255,255,.08);}.da-footer-clean__inner{width:min(1560px,calc(100vw - 72px));margin:0 auto;padding:26px 0 30px;display:flex;justify-content:center;align-items:center;}.da-footer-clean__text{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:14px;line-height:1.5;font-weight:400;color:rgba(255,255,255,.48);text-align:center;}.da-footer-clean__link{color:#ff5a0a;text-decoration:none;transition:opacity .25s ease;}.da-footer-clean__link:hover{opacity:.8;}@media (max-width:980px){.da-footer-clean__inner{width:calc(100vw - 28px);padding:22px 0 26px;}.da-footer-clean__text{font-size:13px;}}@media (max-width:640px){.da-footer-clean__inner{width:calc(100vw - 24px);padding:18px 0 22px;}.da-footer-clean__text{font-size:12px;line-height:1.6;}}</style> <footer class="da-footer-clean"> <div class="da-footer-clean__inner"> <p class="da-footer-clean__text">
 © 2025 DA Agency. Все права защищены. |
@@ -317,6 +391,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 </body> </html>
+
 
 
 
