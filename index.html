@@ -218,15 +218,14 @@ function bindCustomForm() {
     fd.append('email', email.trim());
     fd.append('phone', phone.trim());
     fd.append('budget', budget.trim());
-    fetch(WEBHOOK, { method: 'POST', body: fd, mode: 'no-cors' })
-      .then(function() {
-        customForm.querySelectorAll('input').forEach(function(i){ i.value=''; i.classList.remove('is-error'); });
-        window.location.href = 'http://daagency.kz/thankyou';
-      })
-      .catch(function() {
-        setBtn(defaultText, false);
-        alert('Ошибка сети. Проверьте соединение и попробуйте ещё раз.');
-      });
+    // Fire-and-forget: send without waiting for response
+    try { fetch(WEBHOOK, { method: 'POST', body: fd, mode: 'no-cors' }); } catch(e) {}
+    setTimeout(function() {
+      customForm.querySelectorAll('input').forEach(function(i){ i.value=''; i.classList.remove('is-error'); });
+      window.location.href = 'http://daagency.kz/thankyou';
+    }, 800);
+    var __dummy = Promise.resolve()
+      ;
     return false;
   }
 
@@ -397,6 +396,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 </body> </html>
+
 
 
 
