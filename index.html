@@ -167,88 +167,76 @@ try {if(typeof tildaForm.requestSubmit==='function') {tildaForm.requestSubmit();
 try {return tildaForm.dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}));} catch(_) {return false;}}
 function bindCustomForm() {
   var WEBHOOK = 'https://s7.apix-drive.com/web-hooks/33558/gejbseaq';
-  var customForm = document.querySelector('[data-da-form]');
-  if (!customForm || customForm.__daBound) return;
-  customForm.__daBound = true;
-  var btn = customForm.querySelector('.da-contact__button');
-  var defaultText = btn ? btn.textContent : 'Отправить';
+  var cf = document.querySelector('[data-da-form]');
+  if (!cf || cf.__daBound) return;
+  cf.__daBound = true;
 
-  function setBtn(text, disabled) { if (!btn) return; btn.textContent = text; btn.disabled = !!disabled; }
+  var btn = cf.querySelector('.da-contact__button');
+  var defText = btn ? btn.textContent : 'Отправить';
+  function setBtn(t, d) { if (!btn) return; btn.textContent = t; btn.disabled = !!d; }
 
-  // Phone mask
-  var phoneInput = customForm.querySelector('[name="phone"]');
-  if (phoneInput && !phoneInput.__masked) {
-    phoneInput.__masked = true;
-    phoneInput.addEventListener('input', function() {
-      var digits = this.value.replace(/\D/g, '').substring(0, 11);
-      if (digits.length === 0) { this.value = ''; return; }
-      var d = digits;
-      var formatted = '+' + d[0];
-      if (d.length > 1) formatted += ' (' + d.substring(1, 4);
-      if (d.length >= 4) formatted += ') ' + d.substring(4, 7);
-      if (d.length >= 7) formatted += '-' + d.substring(7, 9);
-      if (d.length >= 9) formatted += '-' + d.substring(9, 11);
-      this.value = formatted;
-    });
-    phoneInput.addEventListener('keydown', function(e) {
-      if (e.key === 'Backspace' && this.value.length <= 2) this.value = '';
-    });
-  }
+  // Phone mask — via global event delegation (works even after DOM move)
+  document.addEventListener('input', function(ev) {
+    if (ev.target && ev.target.name === 'phone' && ev.target.closest('[data-da-form]')) {
+      var t = ev.target;
+      var d = t.value.replace(/[^0-9]/g, '').substring(0, 11);
+      if (!d.length) { t.value = ''; return; }
+      var f = '+' + d[0];
+      if (d.length > 1) f += ' (' + d.substring(1, 4);
+      if (d.length >= 4) f += ') ' + d.substring(4, 7);
+      if (d.length >= 7) f += '-' + d.substring(7, 9);
+      if (d.length >= 9) f += '-' + d.substring(9, 11);
+      t.value = f;
+    }
+  }, true);
 
-  // Validation
-  function validate() {
+  function doValidate() {
+    var nI = cf.querySelector('[name="name"]');
+    var pI = cf.querySelector('[name="phone"]');
     var ok = true;
-    var nameInput = customForm.querySelector('[name="name"]');
-    var emailInput = customForm.querySelector('[name="email"]');
-    if (nameInput && !nameInput.value.trim()) { nameInput.classList.add('is-error'); ok = false; }
-    if (phoneInput && phoneInput.value.replace(/\D/g,'').length < 10) { phoneInput.classList.add('is-error'); ok = false; }
+    if (!nI || !nI.value.trim()) { if (nI) nI.classList.add('is-error'); ok = false; }
+    if (!pI || pI.value.replace(/[^0-9]/g,'').length < 10) { if (pI) pI.classList.add('is-error'); ok = false; }
     return ok;
   }
 
   function sendLead(e) {
-    stopEvent(e);
-    if (!validate()) return false;
-    var name = (customForm.querySelector('[name="name"]')||{}).value || '';
-    var email = (customForm.querySelector('[name="email"]')||{}).value || '';
-    var phone = (customForm.querySelector('[name="phone"]')||{}).value || '';
-    var budget = (customForm.querySelector('[name="budget"]')||{}).value || '';
+    if (e && e.preventDefault) e.preventDefault();
+    if (e && e.stopPropagation) e.stopPropagation();
+    if (e && e.stopImmediatePropagation) e.stopImmediatePropagation();
+    if (!doValidate()) return false;
+    var name   = (cf.querySelector('[name="name"]')   || {}).value || '';
+    var email  = (cf.querySelector('[name="email"]')  || {}).value || '';
+    var phone  = (cf.querySelector('[name="phone"]')  || {}).value || '';
+    var budget = (cf.querySelector('[name="budget"]') || {}).value || '';
     setBtn('Отправляем...', true);
-    var fd = new FormData();
-    fd.append('name', name.trim());
-    fd.append('email', email.trim());
-    fd.append('phone', phone.trim());
-    fd.append('budget', budget.trim());
-    // Direct send to APIX-Drive via URLSearchParams (no CORS preflight needed)
-    var params = new URLSearchParams();
-    params.append('name', name.trim());
-    params.append('email', email.trim());
-    params.append('phone', phone.trim());
-    params.append('budget', budget.trim());
-    fetch(WEBHOOK, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: params.toString()
-    })
-    .then(function(r) {
-      customForm.querySelectorAll('input').forEach(function(i){ i.value=''; i.classList.remove('is-error'); });
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', WEBHOOK, true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4) {
+        cf.querySelectorAll('input').forEach(function(i){ i.value = ''; i.classList.remove('is-error'); });
+        window.location.href = 'http://daagency.kz/thankyou';
+      }
+    };
+    xhr.onerror = function() {
+      cf.querySelectorAll('input').forEach(function(i){ i.value = ''; i.classList.remove('is-error'); });
       window.location.href = 'http://daagency.kz/thankyou';
-    })
-    .catch(function() {
-      // Still redirect — data may have been received even if CORS header missing
-      customForm.querySelectorAll('input').forEach(function(i){ i.value=''; i.classList.remove('is-error'); });
-      window.location.href = 'http://daagency.kz/thankyou';
-    });
+    };
+    var body = 'name=' + encodeURIComponent(name.trim())
+             + '&email=' + encodeURIComponent(email.trim())
+             + '&phone=' + encodeURIComponent(phone.trim())
+             + '&budget=' + encodeURIComponent(budget.trim());
+    xhr.send(body);
     return false;
   }
 
   if (btn) {
     btn.addEventListener('click', sendLead, true);
-    btn.addEventListener('touchstart', sendLead, {capture: true, passive: false});
+    btn.addEventListener('touchend', sendLead, { capture: true, passive: false });
   }
-  var inputs = customForm.querySelectorAll('input');
-  inputs.forEach(function(input) {
+  cf.querySelectorAll('input').forEach(function(input) {
     input.addEventListener('input', function() { input.classList.remove('is-error'); });
-    input.addEventListener('keydown', function(e) { if(e.key==='Enter') sendLead(e); }, true);
+    input.addEventListener('keydown', function(e) { if (e.key === 'Enter') sendLead(e); }, true);
   });
 }
 function initAll() {initFaq();bindCustomForm();};if(document.readyState==='loading') {document.addEventListener('DOMContentLoaded',initAll);} else {initAll();}
@@ -408,6 +396,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 </body> </html>
+
 
 
 
