@@ -218,14 +218,41 @@ function bindCustomForm() {
     fd.append('email', email.trim());
     fd.append('phone', phone.trim());
     fd.append('budget', budget.trim());
-    // Fire-and-forget: send without waiting for response
-    try { fetch(WEBHOOK, { method: 'POST', body: fd, mode: 'no-cors' }); } catch(e) {}
-    setTimeout(function() {
-      customForm.querySelectorAll('input').forEach(function(i){ i.value=''; i.classList.remove('is-error'); });
-      window.location.href = 'http://daagency.kz/thankyou';
-    }, 800);
-    var __dummy = Promise.resolve()
-      ;
+    // Relay through Tilda's own form so APIX-Drive receives it properly
+    var tildaWrap = document.querySelector(TILDA_FORM_REC);
+    var tildaForm = tildaWrap ? tildaWrap.querySelector('form') : null;
+    if (tildaWrap && tildaForm) {
+      // Temporarily show it so Tilda's JS can submit
+      var prevDisplay = tildaWrap.style.display;
+      var prevHeight = tildaWrap.style.height;
+      tildaWrap.style.display = '';
+      tildaWrap.style.height = '';
+      tildaWrap.style.visibility = 'hidden';
+      tildaWrap.style.position = 'fixed';
+      tildaWrap.style.top = '-9999px';
+      setFieldValue(tildaForm, 'name', name.trim());
+      setFieldValue(tildaForm, 'email', email.trim());
+      setFieldValue(tildaForm, 'phone', phone.trim());
+      setFieldValue(tildaForm, 'budget', budget.trim());
+      var submitted = triggerRealSubmit(tildaForm);
+      if (!submitted) {
+        tildaWrap.style.display = prevDisplay;
+        tildaWrap.style.height = prevHeight;
+        tildaWrap.style.visibility = '';
+        tildaWrap.style.position = '';
+        tildaWrap.style.top = '';
+        setBtn(defaultText, false);
+        alert('Не удалось отправить. Попробуйте ещё раз.');
+      }
+      setTimeout(function() { tildaWrap.style.display = prevDisplay; tildaWrap.style.height = prevHeight; tildaWrap.style.visibility = ''; tildaWrap.style.position = ''; tildaWrap.style.top = ''; }, 15000);
+    } else {
+      // Fallback: direct fetch
+      try { fetch(WEBHOOK, { method: 'POST', body: fd }); } catch(e) {}
+      setTimeout(function() {
+        customForm.querySelectorAll('input').forEach(function(i){ i.value=''; i.classList.remove('is-error'); });
+        window.location.href = 'http://daagency.kz/thankyou';
+      }, 800);
+    }
     return false;
   }
 
@@ -396,6 +423,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 </body> </html>
+
 
 
 
