@@ -388,9 +388,21 @@ document.addEventListener("DOMContentLoaded", function () {
             firstTildaParent.parentNode.insertBefore(mobileContainer, firstTildaParent);
         }
     }
+    // Rebind custom form AFTER extraction so button events survive DOM move
+    if (typeof bindCustomForm === 'function') {
+      var formEl = document.querySelector('[data-da-form]');
+      if (formEl) formEl.__daBound = false;
+      bindCustomForm();
+    }
+    if (typeof initFaq === 'function') {
+      var faqEl = document.querySelector('[data-faq]');
+      if (faqEl) { document.querySelectorAll('.da-faq__item').forEach(function(i){ i.__faqBound=false; }); }
+      initFaq();
+    }
 });
 </script>
 </body> </html>
+
 
 
 
