@@ -396,23 +396,19 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    var form = document.getElementById('form1993423633');
-    if (!form) return;
-
+(function() {
     function showError(input, message) {
-        input.classList.add('is-error');
-        input.style.borderColor = '#ff5a0a';
-        input.style.backgroundColor = 'rgba(255, 90, 10, 0.05)';
+        input.style.border = '2px solid #ff5a0a';
+        input.style.boxShadow = '0 0 5px rgba(255, 90, 10, 0.4)';
         var parent = input.closest('.t-input-block');
         if (parent) {
-            var msgEl = parent.querySelector('.da-error-msg');
+            var msgEl = parent.querySelector('.da-custom-error-msg');
             if (!msgEl) {
                 msgEl = document.createElement('div');
-                msgEl.className = 'da-error-msg';
+                msgEl.className = 'da-custom-error-msg';
                 msgEl.style.color = '#ff5a0a';
                 msgEl.style.fontSize = '12px';
-                msgEl.style.marginTop = '6px';
+                msgEl.style.marginTop = '4px';
                 msgEl.style.fontWeight = '500';
                 parent.appendChild(msgEl);
             }
@@ -421,115 +417,121 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function clearError(input) {
-        if (!input.classList.contains('is-error')) return;
-        input.classList.remove('is-error');
-        input.style.borderColor = '#cccccc';
-        input.style.backgroundColor = '#ffffff';
+        input.style.border = '';
+        input.style.boxShadow = '';
         var parent = input.closest('.t-input-block');
         if (parent) {
-            var msgEl = parent.querySelector('.da-error-msg');
-            if (msgEl) {
-                msgEl.remove();
-            }
+            var msgEl = parent.querySelector('.da-custom-error-msg');
+            if (msgEl) msgEl.remove();
         }
     }
 
-    var inputs = form.querySelectorAll('input');
-    inputs.forEach(function(input) {
-        input.addEventListener('input', function() {
-            clearError(input);
-        });
+    document.addEventListener('input', function(e) {
+        if (e.target && e.target.tagName === 'INPUT') {
+            clearError(e.target);
+        }
     });
 
-    var btn = document.getElementById('daCustomSubmitBtn');
-    if (btn) {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+    document.addEventListener('click', function(e) {
+        var btn = e.target.closest('#daCustomSubmitBtn');
+        if (!btn) return;
 
-            // Использование точных ID для надежности
-            var nameInput = document.getElementById('input_8977513689601');
-            var emailInput = document.getElementById('input_8977513689600');
-            var phoneInput = document.getElementById('input_8977513689602');
-            var budgetInput = document.getElementById('input_1772643005812');
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.stopImmediatePropagation) e.stopImmediatePropagation();
 
-            var isValid = true;
-            var errorMessages = [];
+        var form = document.getElementById('form1993423633');
+        var nameInput = document.getElementById('input_8977513689601');
+        var emailInput = document.getElementById('input_8977513689600');
+        var phoneInput = document.getElementById('input_8977513689602');
+        var budgetInput = document.getElementById('input_1772643005812');
 
-            if (!nameInput || !nameInput.value.trim()) {
-                if (nameInput) showError(nameInput, 'Пожалуйста, введите имя');
-                errorMessages.push('Пожалуйста, введите имя');
-                isValid = false;
-            }
-            if (!emailInput || !emailInput.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value.trim())) {
-                if (emailInput) showError(emailInput, 'Введите корректный Email');
-                errorMessages.push('Введите корректный Email');
-                isValid = false;
-            }
-            if (!phoneInput || phoneInput.value.replace(/\D/g, '').length < 11) {
-                if (phoneInput) showError(phoneInput, 'Введите корректный телефон (минимум 11 цифр)');
-                errorMessages.push('Введите корректный телефон');
-                isValid = false;
-            }
-            if (!budgetInput || !budgetInput.value.trim()) {
-                if (budgetInput) showError(budgetInput, 'Укажите планируемый бюджет');
-                errorMessages.push('Укажите планируемый бюджет');
-                isValid = false;
-            }
+        var isValid = true;
+        var errorMessages = [];
 
-            // Показываем общий блок ошибок
-            var errorBoxMiddle = form.querySelector('.t-form__errorbox-middle .js-errorbox-all');
-            if (errorBoxMiddle) {
-                var errorList = errorBoxMiddle.querySelector('ul');
-                if (errorList) {
-                    errorList.innerHTML = ''; // очистка
-                    if (!isValid) {
-                        errorBoxMiddle.style.display = 'block';
-                        errorMessages.forEach(function(msg) {
-                            var li = document.createElement('li');
-                            li.className = 't-form__errorbox-item';
-                            li.textContent = msg;
-                            errorList.appendChild(li);
-                        });
-                    } else {
-                        errorBoxMiddle.style.display = 'none';
-                    }
-                }
-            }
+        var oldMsgBox = form ? form.querySelector('.da-master-error-box') : document.querySelector('.da-master-error-box');
+        if (oldMsgBox) oldMsgBox.remove();
 
-            if (!isValid) return false;
+        if (!nameInput || !nameInput.value.trim()) {
+            if (nameInput) showError(nameInput, 'Пожалуйста, введите имя');
+            errorMessages.push('Имя — обязательное поле');
+            isValid = false;
+        }
+        if (!emailInput || !emailInput.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value.trim())) {
+            if (emailInput) showError(emailInput, 'Введите корректный Email');
+            errorMessages.push('Email — не заполнен или формат неверен');
+            isValid = false;
+        }
+        if (!phoneInput || phoneInput.value.replace(/\D/g, '').length < 11) {
+            if (phoneInput) showError(phoneInput, 'Введите корректный номер телефона (не менее 11 цифр)');
+            errorMessages.push('Телефон — обязательное поле (не менее 11 цифр)');
+            isValid = false;
+        }
+        if (!budgetInput || !budgetInput.value.trim()) {
+            if (budgetInput) showError(budgetInput, 'Укажите планируемый бюджет');
+            errorMessages.push('Бюджет — обязательное поле');
+            isValid = false;
+        }
 
-            var btnText = btn.querySelector('.t-btnflex__text');
-            if (btnText) btnText.textContent = 'Отправляем...';
-            else btn.textContent = 'Отправляем...';
-            
-            btn.style.opacity = '0.7';
-            btn.disabled = true;
-            
-            var formData = new FormData();
-            formData.append('name', nameInput ? nameInput.value.trim() : '');
-            formData.append('email', emailInput ? emailInput.value.trim() : '');
-            formData.append('phone', phoneInput ? phoneInput.value.trim() : '');
-            formData.append('budget', budgetInput ? budgetInput.value.trim() : '');
-            formData.append('source', window.location.href);
+        if (!isValid) {
+            var msgBox = document.createElement('div');
+            msgBox.className = 'da-master-error-box';
+            msgBox.style.background = 'rgba(255, 90, 10, 0.08)';
+            msgBox.style.border = '2px solid #ff5a0a';
+            msgBox.style.padding = '15px';
+            msgBox.style.marginBottom = '15px';
+            msgBox.style.borderRadius = '5px';
+            msgBox.style.color = '#ff5a0a';
+            msgBox.style.fontWeight = '600';
+            msgBox.style.fontSize = '14px';
 
-            var successUrl = form.getAttribute('data-success-url') || "thankyou.html";
+            var title = document.createElement('div');
+            title.textContent = 'Исправьте ошибки для отправки:';
+            title.style.marginBottom = '8px';
+            msgBox.appendChild(title);
 
-            fetch('https://s7.apix-drive.com/web-hooks/33558/gejbseaq', {
-                method: 'POST',
-                body: formData,
-                mode: 'no-cors'
-            }).then(function() {
-                window.location.href = successUrl;
-            }).catch(function(err) {
-                console.error('Submit error:', err);
-                window.location.href = successUrl;
+            var ul = document.createElement('ul');
+            ul.style.margin = '0';
+            ul.style.paddingLeft = '20px';
+            errorMessages.forEach(function(msg) {
+                var li = document.createElement('li');
+                li.textContent = msg;
+                ul.appendChild(li);
             });
-        }, true);
-    }
-});
-</script>
+            msgBox.appendChild(ul);
+
+            btn.parentNode.insertBefore(msgBox, btn);
+            return false;
+        }
+
+        var btnText = btn.querySelector('.t-btnflex__text');
+        if (btnText) btnText.textContent = 'Отправляем...';
+        else btn.textContent = 'Отправляем...';
+        
+        btn.style.opacity = '0.7';
+        btn.disabled = true;
+        
+        var formData = new FormData();
+        formData.append('name', nameInput ? nameInput.value.trim() : '');
+        formData.append('email', emailInput ? emailInput.value.trim() : '');
+        formData.append('phone', phoneInput ? phoneInput.value.trim() : '');
+        formData.append('budget', budgetInput ? budgetInput.value.trim() : '');
+        formData.append('source', window.location.href);
+
+        var successUrl = form ? form.getAttribute('data-success-url') : "thankyou.html";
+
+        fetch('https://s7.apix-drive.com/web-hooks/33558/gejbseaq', {
+            method: 'POST',
+            body: formData,
+            mode: 'no-cors'
+        }).then(function() {
+            window.location.href = successUrl;
+        }).catch(function(err) {
+            console.error('Submit error:', err);
+            window.location.href = successUrl;
+        });
+    }, true);
+})();</script>
 </body> </html>
 
 
