@@ -447,13 +447,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
         var isValid = true;
         var nameInput = form.querySelector('[name="Name"]');
+        var emailInput = form.querySelector('[name="Email"]');
         var phoneInput = form.querySelector('[name="Phone"]');
-        var nicheInput = form.querySelector('[name="Niche"]');
-        var budgetInput = form.querySelector('[name="Budget"]');
+        var budgetInput = form.querySelector('[name="budget"]');
 
         if (nameInput && !nameInput.value.trim()) {
             showError(nameInput, 'Пожалуйста, введите ваше имя');
             isValid = false;
+        }
+        if (emailInput) {
+            var emailVal = emailInput.value.trim();
+            if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+                showError(emailInput, 'Введите корректный Email');
+                isValid = false;
+            }
         }
         if (phoneInput) {
             var phoneVal = phoneInput.value.replace(/\D/g, '');
@@ -461,10 +468,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 showError(phoneInput, 'Введите корректный номер телефона');
                 isValid = false;
             }
-        }
-        if (nicheInput && !nicheInput.value.trim()) {
-            showError(nicheInput, 'Пожалуйста, укажите вашу нишу');
-            isValid = false;
         }
         if (budgetInput && !budgetInput.value.trim()) {
             showError(budgetInput, 'Укажите планируемый бюджет');
