@@ -192,10 +192,17 @@ function bindCustomForm() {
 
   function doValidate() {
     var nI = cf.querySelector('[name="name"]');
+    var eI = cf.querySelector('[name="email"]');
     var pI = cf.querySelector('[name="phone"]');
+    var bI = cf.querySelector('[name="budget"]');
     var ok = true;
+    
+    cf.querySelectorAll('input').forEach(function(i){ i.classList.remove('is-error'); });
+
     if (!nI || !nI.value.trim()) { if (nI) nI.classList.add('is-error'); ok = false; }
+    if (!eI || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(eI.value.trim())) { if (eI) eI.classList.add('is-error'); ok = false; }
     if (!pI || pI.value.replace(/[^0-9]/g,'').length < 10) { if (pI) pI.classList.add('is-error'); ok = false; }
+    if (!bI || !bI.value.trim()) { if (bI) bI.classList.add('is-error'); ok = false; }
     return ok;
   }
 
@@ -313,9 +320,7 @@ style="display:none;" data-nosnippet
 tabindex="-1"
 aria-label="Ошибки при заполнении формы"> <ul
 role="list"
-class="t-form__errorbox-text t-text t-text_md"> <li class="t-form__errorbox-item js-rule-error js-rule-error-all"></li> <li class="t-form__errorbox-item js-rule-error js-rule-error-req"></li> <li class="t-form__errorbox-item js-rule-error js-rule-error-email"></li> <li class="t-form__errorbox-item js-rule-error js-rule-error-name"></li> <li class="t-form__errorbox-item js-rule-error js-rule-error-phone"></li> <li class="t-form__errorbox-item js-rule-error js-rule-error-minlength"></li> <li class="t-form__errorbox-item js-rule-error js-rule-error-string"></li> </ul> </div> <!--/noindex--> </div> <div class="t-form__submit"> <button
-class="t-submit t-btnflex t-btnflex_type_submit t-btnflex_md"
-type="button" id="daCustomSubmitBtn"><span class="t-btnflex__text">Send</span> <style>#rec1993423633 .t-btnflex.t-btnflex_type_submit {color:#ffffff;background-color:#000000;--border-width:0px;border-style:none !important;box-shadow:none !important;transition-duration:0.2s;transition-property:background-color,color,border-color,box-shadow,opacity,transform,gap;transition-timing-function:ease-in-out;}</style></button> </div> </div> <div class="t-form__errorbox-bottom"> <!--noindex--> <div
+class="t-form__errorbox-text t-text t-text_md"> <li class="t-form__errorbox-item js-rule-error js-rule-error-all"></li> <li class="t-form__errorbox-item js-rule-error js-rule-error-req"></li> <li class="t-form__errorbox-item js-rule-error js-rule-error-email"></li> <li class="t-form__errorbox-item js-rule-error js-rule-error-name"></li> <li class="t-form__errorbox-item js-rule-error js-rule-error-phone"></li> <li class="t-form__errorbox-item js-rule-error js-rule-error-minlength"></li> <li class="t-form__errorbox-item js-rule-error js-rule-error-string"></li> </ul> </div> <!--/noindex--> </div> <div class="t-form__submit"> <button class="da-clean-submit" type="button" style="color:#ffffff;background-color:#000000;border:none;box-shadow:none;width:100%;padding:18px;font-size:18px;font-weight:bold;cursor:pointer;border-radius:4px;display:block;text-align:center;">Send</button> </div> </div> <div class="t-form__errorbox-bottom"> <!--noindex--> <div
 class="js-errorbox-all t-form__errorbox-wrapper"
 style="display:none;" data-nosnippet
 tabindex="-1"
