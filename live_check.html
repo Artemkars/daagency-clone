@@ -204,24 +204,7 @@ function bindCustomForm() {
     return ok;
   }
 
-  function sendLead(e) { if (e && e.preventDefault) e.preventDefault(); if (cf.__submitting) return false; cf.__submitting = true; 
-    if (e && e.stopPropagation) e.stopPropagation();
-    if (e && e.stopImmediatePropagation) e.stopImmediatePropagation();
-    if (!doValidate()) return false;
-    var name   = (cf.querySelector('[name="name"]')   || {}).value || '';
-    var email  = (cf.querySelector('[name="niche"]')  || {}).value || '';
-    var phone  = (cf.querySelector('[name="phone"]')  || {}).value || '';
-    var budget = (cf.querySelector('[name="budget"]') || {}).value || '';
-    
-    var params = new URLSearchParams();
-    params.set('name', name.trim());
-    params.set('niche', email.trim());
-    params.set('phone', phone.trim());
-    params.set('budget', budget.trim());
-
-    if (navigator.sendBeacon) { navigator.sendBeacon(WEBHOOK, params); } else { fetch(WEBHOOK, { method: "POST", body: params, mode: "no-cors" }); } setTimeout(function() { window.location.href = "/thankyou"; }, 20);
-    return false;
-  }
+  function sendLead(e) { if (e && e.preventDefault) e.preventDefault(); if (cf.__submitting) return false; setBtn("Отправка...", true); if (!doValidate()) { setBtn("Отправить заявку", false); return false; } cf.__submitting = true; var name = (cf.querySelector('[name="name"]') || {}).value || ''; var email = (cf.querySelector('[name="niche"]') || {}).value || ''; var phone = (cf.querySelector('[name="phone"]') || {}).value || ''; var budget = (cf.querySelector('[name="budget"]') || {}).value || ''; var params = new URLSearchParams(); params.set('name', name.trim()); params.set('niche', email.trim()); params.set('phone', phone.trim()); params.set('budget', budget.trim()); if (navigator.sendBeacon) { navigator.sendBeacon(WEBHOOK, params); } else { fetch(WEBHOOK, { method: "POST", body: params, mode: "no-cors" }); } setTimeout(function() { window.location.href = "/thankyou"; }, 20); return false; }
 
   if (btn) {
     btn.addEventListener('click', sendLead, true);
