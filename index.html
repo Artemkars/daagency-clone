@@ -166,7 +166,7 @@ function triggerRealSubmit(tildaForm) {var submitBtn=tildaForm.querySelector('.t
 try {if(typeof tildaForm.requestSubmit==='function') {tildaForm.requestSubmit();return true;}} catch(_) {}
 try {return tildaForm.dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}));} catch(_) {return false;}}
 function bindCustomForm() {
-  var WEBHOOK = 'https://s7.apix-drive.com/web-hooks/33558/gejbseaq';
+  var WEBHOOK = 'https://script.google.com/macros/s/AKfycbzMcAxJy5LPXQwpFRvSbBs_o95AGjG13MIJsffq8Fsh4qpWw-cXnFJGSpItlBtFKdPX/exec';
   var cf = document.querySelector('[data-da-form]');
   if (!cf || cf.__daBound) return;
   cf.__daBound = true;
@@ -530,7 +530,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         var successUrl = form ? form.getAttribute('data-success-url') : "thankyou.html";
 
-        fetch('https://s7.apix-drive.com/web-hooks/33558/gejbseaq', {
+        fetch('https://script.google.com/macros/s/AKfycbzMcAxJy5LPXQwpFRvSbBs_o95AGjG13MIJsffq8Fsh4qpWw-cXnFJGSpItlBtFKdPX/exec', {
             method: 'POST',
             body: formData,
             mode: 'no-cors'
