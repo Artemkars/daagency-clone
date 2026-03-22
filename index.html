@@ -162,7 +162,7 @@ function findTildaForm() {var wrap=findTildaWrap();return wrap?wrap.querySelecto
 function setFieldValue(form,fieldName,value) {var fields=form.querySelectorAll('[name="' + fieldName + '"]');if(!fields.length) return false;fields.forEach(function(field) {field.value=value||'';['input','change','keyup','blur'].forEach(function(evt) {try {field.dispatchEvent(new Event(evt,{bubbles:true}));} catch(_) {}});});return true;}
 function markError(input,hasError) {if(!input) return;if(hasError) input.classList.add('is-error');else input.classList.remove('is-error');}
 function validate(customForm) {var nameInput=customForm.querySelector('[name="name"]');var emailInput=customForm.querySelector('[name="email"]');var phoneInput=customForm.querySelector('[name="phone"]');var name=nameInput?nameInput.value.trim():'';var email=emailInput?emailInput.value.trim():'';var phone=phoneInput?phoneInput.value.trim():'';var emailOk=!email||/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);var phoneDigits=phone.replace(/\D/g,'');var phoneOk=phoneDigits.length>=10;markError(nameInput,!name);markError(emailInput,!email||!emailOk);markError(phoneInput,!phone||!phoneOk);if(!name) return false;if(!email||!emailOk) return false;if(!phone||!phoneOk) return false;return true;}
-function triggerRealSubmit(tildaForm) {var submitBtn=tildaForm.querySelector('.t-submit, button[type="submit"], input[type="submit"]');if(submitBtn) {['mousedown','mouseup','click'].forEach(function(type) {try {submitBtn.dispatchEvent(new MouseEvent(type,{bubbles:true,cancelable:true,view:window}));} catch(_) {}});return true;}
+function triggerRealSubmit(tildaForm) {var submitBtn=tildaForm.querySelector('.t-submit, button[type="button" id="daCustomSubmitBtn"], input[type="button" id="daCustomSubmitBtn"]');if(submitBtn) {['mousedown','mouseup','click'].forEach(function(type) {try {submitBtn.dispatchEvent(new MouseEvent(type,{bubbles:true,cancelable:true,view:window}));} catch(_) {}});return true;}
 try {if(typeof tildaForm.requestSubmit==='function') {tildaForm.requestSubmit();return true;}} catch(_) {}
 try {return tildaForm.dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}));} catch(_) {return false;}}
 function bindCustomForm() {
@@ -315,7 +315,7 @@ aria-label="Ошибки при заполнении формы"> <ul
 role="list"
 class="t-form__errorbox-text t-text t-text_md"> <li class="t-form__errorbox-item js-rule-error js-rule-error-all"></li> <li class="t-form__errorbox-item js-rule-error js-rule-error-req"></li> <li class="t-form__errorbox-item js-rule-error js-rule-error-email"></li> <li class="t-form__errorbox-item js-rule-error js-rule-error-name"></li> <li class="t-form__errorbox-item js-rule-error js-rule-error-phone"></li> <li class="t-form__errorbox-item js-rule-error js-rule-error-minlength"></li> <li class="t-form__errorbox-item js-rule-error js-rule-error-string"></li> </ul> </div> <!--/noindex--> </div> <div class="t-form__submit"> <button
 class="t-submit t-btnflex t-btnflex_type_submit t-btnflex_md"
-type="submit"><span class="t-btnflex__text">Send</span> <style>#rec1993423633 .t-btnflex.t-btnflex_type_submit {color:#ffffff;background-color:#000000;--border-width:0px;border-style:none !important;box-shadow:none !important;transition-duration:0.2s;transition-property:background-color,color,border-color,box-shadow,opacity,transform,gap;transition-timing-function:ease-in-out;}</style></button> </div> </div> <div class="t-form__errorbox-bottom"> <!--noindex--> <div
+type="button" id="daCustomSubmitBtn"><span class="t-btnflex__text">Send</span> <style>#rec1993423633 .t-btnflex.t-btnflex_type_submit {color:#ffffff;background-color:#000000;--border-width:0px;border-style:none !important;box-shadow:none !important;transition-duration:0.2s;transition-property:background-color,color,border-color,box-shadow,opacity,transform,gap;transition-timing-function:ease-in-out;}</style></button> </div> </div> <div class="t-form__errorbox-bottom"> <!--noindex--> <div
 class="js-errorbox-all t-form__errorbox-wrapper"
 style="display:none;" data-nosnippet
 tabindex="-1"
@@ -441,7 +441,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    var btn = form.querySelector('button[type="submit"]');
+    var btn = document.getElementById('daCustomSubmitBtn');
     if (btn) {
         btn.addEventListener('click', function(e) {
             e.preventDefault();
@@ -478,17 +478,38 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (!isValid) return false;
 
-            btn.textContent = 'Отправляем...';
+            var btnText = btn.querySelector('.t-btnflex__text');
+            if (btnText) btnText.textContent = 'Отправляем...';
+            else btn.textContent = 'Отправляем...';
+            
             btn.style.opacity = '0.7';
             btn.disabled = true;
             
-            console.log("Validation passed! Ready for Apix-Drive.");
-            // Next step will integrate Apix-Drive here
+            var formData = new FormData();
+            formData.append('name', nameInput ? nameInput.value.trim() : '');
+            formData.append('email', emailInput ? emailInput.value.trim() : '');
+            formData.append('phone', phoneInput ? phoneInput.value.trim() : '');
+            formData.append('budget', budgetInput ? budgetInput.value.trim() : '');
+            formData.append('source', window.location.href);
+
+            var successUrl = form.getAttribute('data-success-url') || "thankyou.html";
+
+            fetch('https://s7.apix-drive.com/web-hooks/33558/gejbseaq', {
+                method: 'POST',
+                body: formData,
+                mode: 'no-cors'
+            }).then(function() {
+                window.location.href = successUrl;
+            }).catch(function(err) {
+                console.error('Submit error:', err);
+                window.location.href = successUrl;
+            });
         }, true);
     }
 });
 </script>
 </body> </html>
+
 
 
 
