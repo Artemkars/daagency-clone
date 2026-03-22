@@ -216,24 +216,22 @@ function bindCustomForm() {
     var phone  = (cf.querySelector('[name="phone"]')  || {}).value || '';
     var budget = (cf.querySelector('[name="budget"]') || {}).value || '';
     setBtn('Отправляем...', true);
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', WEBHOOK, true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState === 4) {
-        cf.querySelectorAll('input').forEach(function(i){ i.value = ''; i.classList.remove('is-error'); });
-        window.location.href = 'http://daagency.kz/thankyou';
-      }
-    };
-    xhr.onerror = function() {
+    var params = new URLSearchParams();
+    params.set('name', name.trim());
+    params.set('email', email.trim());
+    params.set('phone', phone.trim());
+    params.set('budget', budget.trim());
+
+    fetch(WEBHOOK, {
+      method: 'POST',
+      body: params,
+      mode: 'no-cors'
+    }).then(function() {
       cf.querySelectorAll('input').forEach(function(i){ i.value = ''; i.classList.remove('is-error'); });
       window.location.href = 'http://daagency.kz/thankyou';
-    };
-    var body = 'name=' + encodeURIComponent(name.trim())
-             + '&email=' + encodeURIComponent(email.trim())
-             + '&phone=' + encodeURIComponent(phone.trim())
-             + '&budget=' + encodeURIComponent(budget.trim());
-    xhr.send(body);
+    }).catch(function() {
+      window.location.href = 'http://daagency.kz/thankyou';
+    });
     return false;
   }
 
