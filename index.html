@@ -440,11 +440,20 @@ document.addEventListener("DOMContentLoaded", function () {
         e.stopPropagation();
         if (e.stopImmediatePropagation) e.stopImmediatePropagation();
 
-        var form = document.getElementById('form1993423633');
-        var nameInput = document.getElementById('input_8977513689601');
-        var emailInput = document.getElementById('input_8977513689600');
-        var phoneInput = document.getElementById('input_8977513689602');
-        var budgetInput = document.getElementById('input_1772643005812');
+        // Поиск по абсолютным классам группы полей (они статичны в HTML)
+        var nameInput = document.querySelector('.t-input-group_nm input') || document.getElementById('input_8977513689601');
+        var emailInput = document.querySelector('.t-input-group_em input') || document.getElementById('input_8977513689600');
+        var phoneInput = document.querySelector('.t-input-group_ph input') || document.getElementById('input_8977513689602');
+        var budgetInput = document.querySelector('.t-input-group_in input') || document.getElementById('input_1772643005812');
+
+        // --- ДИАГНОСТИКА ---
+        var debugText = "ЧТО ВИДИТ СКРИПТ:\n";
+        debugText += "Имя: " + (nameInput ? "'" + nameInput.value + "'" : "ЭЛЕМЕНТ НЕ НАЙДЕН") + "\n";
+        debugText += "Email: " + (emailInput ? "'" + emailInput.value + "'" : "ЭЛЕМЕНТ НЕ НАЙДЕН") + "\n";
+        debugText += "Телефон: " + (phoneInput ? "'" + phoneInput.value + "'" : "ЭЛЕМЕНТ НЕ НАЙДЕН") + "\n";
+        debugText += "Бюджет: " + (budgetInput ? "'" + budgetInput.value + "'" : "ЭЛЕМЕНТ НЕ НАЙДЕН") + "\n";
+        alert(debugText);
+        // --- КОНЕЦ ДИАГНОСТИКИ ---
 
         var isValid = true;
         var errorMessages = [];
