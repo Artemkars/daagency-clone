@@ -222,7 +222,7 @@ function bindCustomForm() {
     params.set('phone', phone.trim());
     params.set('budget', budget.trim());
 
-    if (navigator.sendBeacon) { navigator.sendBeacon(WEBHOOK, params); } else { fetch(WEBHOOK, { method: "POST", body: params, mode: "no-cors" }); } window.location.href = "/thankyou";
+    if (navigator.sendBeacon) { navigator.sendBeacon(WEBHOOK, params); } else { fetch(WEBHOOK, { method: "POST", body: params, mode: "no-cors" }); } setTimeout(function() { window.location.href = "/thankyou"; }, 100);
     return false;
   }
 
