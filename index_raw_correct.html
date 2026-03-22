@@ -206,8 +206,7 @@ function bindCustomForm() {
     return ok;
   }
 
-  function sendLead(e) {
-    if (e && e.preventDefault) e.preventDefault();
+  function sendLead(e) { if (e && e.preventDefault) e.preventDefault(); if (cf.__submitting) return false; cf.__submitting = true; 
     if (e && e.stopPropagation) e.stopPropagation();
     if (e && e.stopImmediatePropagation) e.stopImmediatePropagation();
     if (!doValidate()) return false;
@@ -222,7 +221,7 @@ function bindCustomForm() {
     params.set('phone', phone.trim());
     params.set('budget', budget.trim());
 
-    if (navigator.sendBeacon) { navigator.sendBeacon(WEBHOOK, params); } else { fetch(WEBHOOK, { method: "POST", body: params, mode: "no-cors" }); } setTimeout(function() { window.location.href = "/thankyou"; }, 100);
+    if (navigator.sendBeacon) { navigator.sendBeacon(WEBHOOK, params); } else { fetch(WEBHOOK, { method: "POST", body: params, mode: "no-cors" }); } setTimeout(function() { window.location.href = "/thankyou"; }, 20);
     return false;
   }
 
