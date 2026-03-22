@@ -446,33 +446,38 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
+            if (e.stopImmediatePropagation) e.stopImmediatePropagation();
 
-            var isValid = true;
             var nameInput = form.querySelector('[name="Name"]');
             var emailInput = form.querySelector('[name="Email"]');
             var phoneInput = form.querySelector('[name="Phone"]');
             var budgetInput = form.querySelector('[name="budget"]');
 
-            if (nameInput && !nameInput.value.trim()) {
-                showError(nameInput, 'Пожалуйста, введите ваше имя');
+            // --- DEBUG START ---
+            var debugInfo = "Проверка данных:\n";
+            debugInfo += "Имя: " + (nameInput ? "Найдено ('" + nameInput.value + "')" : "НЕ НАЙДЕНО") + "\n";
+            debugInfo += "Email: " + (emailInput ? "Найдено ('" + emailInput.value + "')" : "НЕ НАЙДЕНО") + "\n";
+            debugInfo += "Телефон: " + (phoneInput ? "Найдено ('" + phoneInput.value + "')" : "НЕ НАЙДЕНО") + "\n";
+            debugInfo += "Бюджет: " + (budgetInput ? "Найдено ('" + budgetInput.value + "')" : "НЕ НАЙДЕНО") + "\n";
+            alert(debugInfo);
+            // --- DEBUG END ---
+
+            var isValid = true;
+
+            if (!nameInput || !nameInput.value.trim()) {
+                if (nameInput) showError(nameInput, 'Пожалуйста, введите ваше имя');
                 isValid = false;
             }
-            if (emailInput) {
-                var emailVal = emailInput.value.trim();
-                if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
-                    showError(emailInput, 'Введите корректный Email');
-                    isValid = false;
-                }
+            if (!emailInput || !emailInput.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value.trim())) {
+                if (emailInput) showError(emailInput, 'Введите корректный Email');
+                isValid = false;
             }
-            if (phoneInput) {
-                var phoneVal = phoneInput.value.replace(/\D/g, '');
-                if (phoneVal.length < 11) {
-                    showError(phoneInput, 'Введите корректный номер телефона');
-                    isValid = false;
-                }
+            if (!phoneInput || phoneInput.value.replace(/\D/g, '').length < 11) {
+                if (phoneInput) showError(phoneInput, 'Введите корректный номер телефона');
+                isValid = false;
             }
-            if (budgetInput && !budgetInput.value.trim()) {
-                showError(budgetInput, 'Укажите планируемый бюджет');
+            if (!budgetInput || !budgetInput.value.trim()) {
+                if (budgetInput) showError(budgetInput, 'Укажите планируемый бюджет');
                 isValid = false;
             }
 
