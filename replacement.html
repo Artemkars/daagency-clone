@@ -1,0 +1,51 @@
+<div class="t-form__inputsbox">
+    <div class="t-input-group">
+        <label style="color:#ffffff; margin-bottom: 5px; display: block;">Имя</label>
+        <div class="t-input-block">
+            <input type="text" name="Name" class="t-input js-tilda-rule" required placeholder="Ваше Имя" style="color:#000000; border:1px solid #cccccc; border-radius: 5px; padding: 10px; width: 100%; height: 50px; font-size: 16px; background-color: #ffffff; box-sizing: border-box;">
+        </div>
+    </div>
+    
+    <div class="t-input-group" style="margin-top: 20px;">
+        <label style="color:#ffffff; margin-bottom: 5px; display: block;">Номер телефона</label>
+        <div class="t-input-block">
+            <input type="tel" name="Phone" class="t-input js-tilda-rule phone-mask" required placeholder="+7 (___) ___-__-__" style="color:#000000; border:1px solid #cccccc; border-radius: 5px; padding: 10px; width: 100%; height: 50px; font-size: 16px; background-color: #ffffff; box-sizing: border-box;">
+        </div>
+    </div>
+
+    <div class="t-input-group" style="margin-top: 20px;">
+        <label style="color:#ffffff; margin-bottom: 5px; display: block;">Ниша</label>
+        <div class="t-input-block">
+            <input type="text" name="Niche" class="t-input js-tilda-rule" required placeholder="Коротко о вашей нише" maxlength="100" style="color:#000000; border:1px solid #cccccc; border-radius: 5px; padding: 10px; width: 100%; height: 50px; font-size: 16px; background-color: #ffffff; box-sizing: border-box;">
+        </div>
+    </div>
+
+    <div class="t-input-group" style="margin-top: 20px;">
+        <label style="color:#ffffff; margin-bottom: 5px; display: block;">Планируемый бюджет</label>
+        <div class="t-input-block">
+            <input type="text" name="Budget" class="t-input js-tilda-rule budget-mask" required placeholder="Только цифры, например: 100000" pattern="\d*" style="color:#000000; border:1px solid #cccccc; border-radius: 5px; padding: 10px; width: 100%; height: 50px; font-size: 16px; background-color: #ffffff; box-sizing: border-box;">
+        </div>
+    </div>
+    
+    <div class="t-form__errorbox-middle"></div>
+    <div class="t-form__submit"><button type="submit" class="t-submit" style="color:#ffffff;background-color:#ff5a0a;border:none;border-radius:5px;cursor:pointer;padding:15px;width:100%;font-size:16px;">Отправить</button></div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var phoneInputs = document.querySelectorAll('.phone-mask');
+    phoneInputs.forEach(function(input) {
+        input.addEventListener('input', function(e) {
+            var x = e.target.value.replace(/\D/g, '').match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
+            if (!x) return;
+            e.target.value = !x[2] ? (x[1] === '7' || x[1] === '8' ? '+7' : (x[1] ? '+7 (' + x[1] : '')) : '+7 (' + x[2] + (x[3] ? ') ' + x[3] : '') + (x[4] ? '-' + x[4] : '') + (x[5] ? '-' + x[5] : '');
+        });
+    });
+
+    var budgetInputs = document.querySelectorAll('.budget-mask');
+    budgetInputs.forEach(function(input) {
+        input.addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/[^\d]/g, '');
+        });
+    });
+});
+</script>
