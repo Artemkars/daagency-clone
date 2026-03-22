@@ -270,19 +270,18 @@ value=""
 placeholder="Your Full Name" data-tilda-rule="name"
 aria-describedby="error_8977513689601"
 style="color:#000000;border:1px solid #000000;"> </div> <div class="t-input-error" aria-live="polite" id="error_8977513689601"></div> </div> <div
-class="t-input-group t-input-group_em " data-input-lid="8977513689600" data-field-type="em" data-field-name="Email"> <label
+class="t-input-group t-input-group_em " data-input-lid="8977513689600" data-field-type="t" data-field-name="Niche"> <label
 for='input_8977513689600'
 class="t-input-title t-descr t-descr_md"
 id="field-title_8977513689600" data-redactor-toolbar="no"
 field="li_title__8977513689600"
-style="color:;">email</label> <div class="t-input-block "> <input
-type="email"
-autocomplete="email"
-name="Email"
+style="color:;">Ниша</label> <div class="t-input-block "> <input
+type="text"
+name="Niche"
 id="input_8977513689600"
 class="t-input "
 value=""
-placeholder="Your Email" data-tilda-req="1" aria-required="true" data-tilda-rule="email"
+placeholder="Ваша Ниша" data-tilda-req="1" aria-required="true" data-tilda-rule="text"
 aria-describedby="error_8977513689600"
 style="color:#000000;border:1px solid #000000;"> </div> <div class="t-input-error" aria-live="polite" id="error_8977513689600"></div> </div> <div
 class="t-input-group t-input-group_ph " data-input-lid="8977513689602" data-field-async="true" data-field-type="ph" data-field-name="Phone"> <label
@@ -436,17 +435,19 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     function handleValidate(e) {
-        alert('Скрипт поймал событие: ' + e.type + '! Начинаем проверку...');
+        // alert('Скрипт поймал событие: ' + e.type + '! Начинаем проверку...');
         
         e.preventDefault();
         e.stopPropagation();
         if (e.stopImmediatePropagation) e.stopImmediatePropagation();
 
         var form = document.getElementById('form1993423633');
-        var nameInput = document.querySelector('.t-input-group_nm input') || document.querySelector('[name="Name"]');
-        var emailInput = document.querySelector('.t-input-group_em input') || document.querySelector('[name="Email"]');
-        var phoneInput = document.querySelector('.t-input-group_ph input') || document.querySelector('[name="Phone"]');
-        var budgetInput = document.querySelector('.t-input-group_in input') || document.querySelector('[name="budget"]');
+        var nameInput = document.querySelector('[name="name"]') || document.querySelector('.t-input-group_nm input') || document.querySelector('[name="Name"]');
+        var nicheInput = document.querySelector('[name="niche"]') || document.querySelector('.t-input-group_em input') || document.querySelector('[name="Niche"]');
+        var phoneInput = document.querySelector('[name="phone"]') || document.querySelector('.t-input-group_ph input') || document.querySelector('[name="Phone"]');
+        var budgetInput = document.querySelector('[name="budget"]') || document.querySelector('.t-input-group_in input') || document.querySelector('[name="Budget"]');
+
+
 
         var isValid = true;
         var errorMessages = [];
@@ -459,11 +460,12 @@ document.addEventListener("DOMContentLoaded", function () {
             errorMessages.push('Имя — обязательное поле');
             isValid = false;
         }
-        if (!emailInput || !emailInput.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value.trim())) {
-            if (emailInput) showError(emailInput, 'Введите корректный Email');
-            errorMessages.push('Email — не заполнен или формат неверен');
+        if (!nicheInput || !nicheInput.value.trim()) {
+            if (nicheInput) showError(nicheInput, 'Пожалуйста, введите нишу');
+            errorMessages.push('Ниша — обязательное поле');
             isValid = false;
         }
+
         if (!phoneInput || phoneInput.value.replace(/\D/g, '').length < 11) {
             if (phoneInput) showError(phoneInput, 'Введите корректный номер телефона (не менее 11 цифр)');
             errorMessages.push('Телефон — обязательное поле (не менее 11 цифр)');
@@ -521,18 +523,19 @@ document.addEventListener("DOMContentLoaded", function () {
             btnToDisable.disabled = true;
         }
         
-        var formData = new FormData();
-        formData.append('name', nameInput ? nameInput.value.trim() : '');
-        formData.append('email', emailInput ? emailInput.value.trim() : '');
-        formData.append('phone', phoneInput ? phoneInput.value.trim() : '');
-        formData.append('budget', budgetInput ? budgetInput.value.trim() : '');
-        formData.append('source', window.location.href);
+        var params = new URLSearchParams();
+        params.append('name', nameInput ? nameInput.value.trim() : '');
+        params.append('niche', nicheInput ? nicheInput.value.trim() : '');
+
+        params.append('phone', phoneInput ? phoneInput.value.trim() : '');
+        params.append('budget', budgetInput ? budgetInput.value.trim() : '');
+        params.append('source', window.location.href);
 
         var successUrl = form ? form.getAttribute('data-success-url') : "thankyou.html";
 
-        fetch('https://script.google.com/macros/s/AKfycbzMcAxJy5LPXQwpFRvSbBs_o95AGjG13MIJsffq8Fsh4qpWw-cXnFJGSpItlBtFKdPX/exec', {
+        fetch('https://script.google.com/macros/s/AKfycbxp18amN9Fjx-83OH-lGUbtWdzjyhJNTk1xVcJtpBaKlHMnkhs_wlTMdzVIDPADQc1R/exec', {
             method: 'POST',
-            body: formData,
+            body: params,
             mode: 'no-cors'
         }).then(function() {
             window.location.href = successUrl;
@@ -544,9 +547,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Слушаем Клик
     document.addEventListener('click', function(e) {
-        var btn = e.target.closest('.t-submit') || e.target.closest('#daCustomSubmitBtn');
+        var btn = e.target.closest('.t-submit') || e.target.closest('#daCustomSubmitBtn') || e.target.closest('.da-contact__button');
         if (btn) handleValidate(e);
     }, true);
+
 
     // Слушаем Submit формы (например Enter)
     document.addEventListener('submit', function(e) {
