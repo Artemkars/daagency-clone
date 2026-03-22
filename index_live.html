@@ -228,7 +228,7 @@ function bindCustomForm() {
 
   if (btn) {
     btn.addEventListener('click', sendLead, true);
-    btn.addEventListener('touchend', sendLead, { capture: true, passive: false });
+    
   }
   cf.querySelectorAll('input').forEach(function(input) {
     input.addEventListener('input', function() { input.classList.remove('is-error'); });
