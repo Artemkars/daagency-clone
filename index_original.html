@@ -161,12 +161,12 @@ function findTildaWrap() {return document.querySelector(TILDA_FORM_REC);}
 function findTildaForm() {var wrap=findTildaWrap();return wrap?wrap.querySelector('form'):null;}
 function setFieldValue(form,fieldName,value) {var fields=form.querySelectorAll('[name="' + fieldName + '"]');if(!fields.length) return false;fields.forEach(function(field) {field.value=value||'';['input','change','keyup','blur'].forEach(function(evt) {try {field.dispatchEvent(new Event(evt,{bubbles:true}));} catch(_) {}});});return true;}
 function markError(input,hasError) {if(!input) return;if(hasError) input.classList.add('is-error');else input.classList.remove('is-error');}
-function validate(customForm) {var nameInput=customForm.querySelector('[name="name"]');var emailInput=customForm.querySelector('[name="email"]');var phoneInput=customForm.querySelector('[name="phone"]');var name=nameInput?nameInput.value.trim():'';var email=emailInput?emailInput.value.trim():'';var phone=phoneInput?phoneInput.value.trim():'';var emailOk=!email||/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);var phoneDigits=phone.replace(/\D/g,'');var phoneOk=phoneDigits.length>=10;markError(nameInput,!name);markError(emailInput,!email||!emailOk);markError(phoneInput,!phone||!phoneOk);if(!name) return false;if(!email||!emailOk) return false;if(!phone||!phoneOk) return false;return true;}
+function validate(customForm) {var nameInput=customForm.querySelector('[name="name"]');var emailInput=customForm.querySelector('[name="niche"]');var phoneInput=customForm.querySelector('[name="phone"]');var name=nameInput?nameInput.value.trim():'';var email=emailInput?emailInput.value.trim():'';var phone=phoneInput?phoneInput.value.trim():'';var emailOk=!email||/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);var phoneDigits=phone.replace(/\D/g,'');var phoneOk=phoneDigits.length>=10;markError(nameInput,!name);markError(emailInput,!email||!emailOk);markError(phoneInput,!phone||!phoneOk);if(!name) return false;if(!email||!emailOk) return false;if(!phone||!phoneOk) return false;return true;}
 function triggerRealSubmit(tildaForm) {var submitBtn=tildaForm.querySelector('.t-submit, button[type="button" id="daCustomSubmitBtn"], input[type="button" id="daCustomSubmitBtn"]');if(submitBtn) {['mousedown','mouseup','click'].forEach(function(type) {try {submitBtn.dispatchEvent(new MouseEvent(type,{bubbles:true,cancelable:true,view:window}));} catch(_) {}});return true;}
 try {if(typeof tildaForm.requestSubmit==='function') {tildaForm.requestSubmit();return true;}} catch(_) {}
 try {return tildaForm.dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}));} catch(_) {return false;}}
 function bindCustomForm() {
-  var WEBHOOK = 'https://script.google.com/macros/s/AKfycbzMcAxJy5LPXQwpFRvSbBs_o95AGjG13MIJsffq8Fsh4qpWw-cXnFJGSpItlBtFKdPX/exec';
+  var WEBHOOK = 'https://script.google.com/macros/s/AKfycbxp18amN9Fjx-83OH-lGUbtWdzjyhJNTk1xVcJtpBaKlHMnkhs_wlTMdzVIDPADQc1R/exec';
   var cf = document.querySelector('[data-da-form]');
   if (!cf || cf.__daBound) return;
   cf.__daBound = true;
@@ -192,7 +192,7 @@ function bindCustomForm() {
 
   function doValidate() {
     var nI = cf.querySelector('[name="name"]');
-    var eI = cf.querySelector('[name="email"]');
+    var eI = cf.querySelector('[name="niche"]');
     var pI = cf.querySelector('[name="phone"]');
     var bI = cf.querySelector('[name="budget"]');
     var ok = true;
@@ -200,7 +200,7 @@ function bindCustomForm() {
     cf.querySelectorAll('input').forEach(function(i){ i.classList.remove('is-error'); });
 
     if (!nI || !nI.value.trim()) { if (nI) nI.classList.add('is-error'); ok = false; }
-    if (!eI || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(eI.value.trim())) { if (eI) eI.classList.add('is-error'); ok = false; }
+    if (!eI || !eI.value.trim()) { if (eI) eI.classList.add('is-error'); ok = false; }
     if (!pI || pI.value.replace(/[^0-9]/g,'').length < 10) { if (pI) pI.classList.add('is-error'); ok = false; }
     if (!bI || !bI.value.trim()) { if (bI) bI.classList.add('is-error'); ok = false; }
     return ok;
@@ -212,13 +212,13 @@ function bindCustomForm() {
     if (e && e.stopImmediatePropagation) e.stopImmediatePropagation();
     if (!doValidate()) return false;
     var name   = (cf.querySelector('[name="name"]')   || {}).value || '';
-    var email  = (cf.querySelector('[name="email"]')  || {}).value || '';
+    var email  = (cf.querySelector('[name="niche"]')  || {}).value || '';
     var phone  = (cf.querySelector('[name="phone"]')  || {}).value || '';
     var budget = (cf.querySelector('[name="budget"]') || {}).value || '';
     setBtn('Отправляем...', true);
     var params = new URLSearchParams();
     params.set('name', name.trim());
-    params.set('email', email.trim());
+    params.set('niche', email.trim());
     params.set('phone', phone.trim());
     params.set('budget', budget.trim());
 
