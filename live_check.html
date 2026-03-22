@@ -222,16 +222,7 @@ function bindCustomForm() {
     params.set('phone', phone.trim());
     params.set('budget', budget.trim());
 
-    fetch(WEBHOOK, {
-      method: 'POST',
-      body: params,
-      mode: 'no-cors'
-    }).then(function() {
-      cf.querySelectorAll('input').forEach(function(i){ i.value = ''; i.classList.remove('is-error'); });
-      window.location.href = 'http://daagency.kz/thankyou';
-    }).catch(function() {
-      window.location.href = 'http://daagency.kz/thankyou';
-    });
+    if (navigator.sendBeacon) { navigator.sendBeacon(WEBHOOK, params); } else { fetch(WEBHOOK, { method: "POST", body: params, mode: "no-cors" }); } window.location.href = "http://daagency.kz/thankyou";
     return false;
   }
 
