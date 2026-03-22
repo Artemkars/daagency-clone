@@ -432,28 +432,18 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    document.addEventListener('click', function(e) {
-        var btn = e.target.closest('#daCustomSubmitBtn');
-        if (!btn) return;
-
+    function handleValidate(e) {
+        alert('Скрипт поймал событие: ' + e.type + '! Начинаем проверку...');
+        
         e.preventDefault();
         e.stopPropagation();
         if (e.stopImmediatePropagation) e.stopImmediatePropagation();
 
-        // Поиск по абсолютным классам группы полей (они статичны в HTML)
-        var nameInput = document.querySelector('.t-input-group_nm input') || document.getElementById('input_8977513689601');
-        var emailInput = document.querySelector('.t-input-group_em input') || document.getElementById('input_8977513689600');
-        var phoneInput = document.querySelector('.t-input-group_ph input') || document.getElementById('input_8977513689602');
-        var budgetInput = document.querySelector('.t-input-group_in input') || document.getElementById('input_1772643005812');
-
-        // --- ДИАГНОСТИКА ---
-        var debugText = "ЧТО ВИДИТ СКРИПТ:\n";
-        debugText += "Имя: " + (nameInput ? "'" + nameInput.value + "'" : "ЭЛЕМЕНТ НЕ НАЙДЕН") + "\n";
-        debugText += "Email: " + (emailInput ? "'" + emailInput.value + "'" : "ЭЛЕМЕНТ НЕ НАЙДЕН") + "\n";
-        debugText += "Телефон: " + (phoneInput ? "'" + phoneInput.value + "'" : "ЭЛЕМЕНТ НЕ НАЙДЕН") + "\n";
-        debugText += "Бюджет: " + (budgetInput ? "'" + budgetInput.value + "'" : "ЭЛЕМЕНТ НЕ НАЙДЕН") + "\n";
-        alert(debugText);
-        // --- КОНЕЦ ДИАГНОСТИКИ ---
+        var form = document.getElementById('form1993423633');
+        var nameInput = document.querySelector('.t-input-group_nm input') || document.querySelector('[name="Name"]');
+        var emailInput = document.querySelector('.t-input-group_em input') || document.querySelector('[name="Email"]');
+        var phoneInput = document.querySelector('.t-input-group_ph input') || document.querySelector('[name="Phone"]');
+        var budgetInput = document.querySelector('.t-input-group_in input') || document.querySelector('[name="budget"]');
 
         var isValid = true;
         var errorMessages = [];
@@ -483,6 +473,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (!isValid) {
+            // Ищем кнопку, чтобы вставить ошибку НАД ней
+            var btn = document.getElementById('daCustomSubmitBtn') || document.querySelector('.t-submit');
             var msgBox = document.createElement('div');
             msgBox.className = 'da-master-error-box';
             msgBox.style.background = 'rgba(255, 90, 10, 0.08)';
@@ -509,16 +501,22 @@ document.addEventListener("DOMContentLoaded", function () {
             });
             msgBox.appendChild(ul);
 
-            btn.parentNode.insertBefore(msgBox, btn);
+            if (btn && btn.parentNode) {
+                btn.parentNode.insertBefore(msgBox, btn);
+            } else if (form) {
+                form.appendChild(msgBox);
+            }
             return false;
         }
 
-        var btnText = btn.querySelector('.t-btnflex__text');
-        if (btnText) btnText.textContent = 'Отправляем...';
-        else btn.textContent = 'Отправляем...';
-        
-        btn.style.opacity = '0.7';
-        btn.disabled = true;
+        var btnToDisable = document.getElementById('daCustomSubmitBtn') || document.querySelector('.t-submit');
+        if (btnToDisable) {
+            var btnText = btnToDisable.querySelector('.t-btnflex__text');
+            if (btnText) btnText.textContent = 'Отправляем...';
+            else btnToDisable.textContent = 'Отправляем...';
+            btnToDisable.style.opacity = '0.7';
+            btnToDisable.disabled = true;
+        }
         
         var formData = new FormData();
         formData.append('name', nameInput ? nameInput.value.trim() : '');
@@ -539,6 +537,19 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error('Submit error:', err);
             window.location.href = successUrl;
         });
+    }
+
+    // Слушаем Клик
+    document.addEventListener('click', function(e) {
+        var btn = e.target.closest('.t-submit') || e.target.closest('#daCustomSubmitBtn');
+        if (btn) handleValidate(e);
+    }, true);
+
+    // Слушаем Submit формы (например Enter)
+    document.addEventListener('submit', function(e) {
+        if (e.target && (e.target.id === 'form1993423633' || e.target.closest('form'))) {
+            handleValidate(e);
+        }
     }, true);
 })();</script>
 </body> </html>
