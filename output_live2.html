@@ -214,7 +214,7 @@ function bindCustomForm() {
     var email  = (cf.querySelector('[name="niche"]')  || {}).value || '';
     var phone  = (cf.querySelector('[name="phone"]')  || {}).value || '';
     var budget = (cf.querySelector('[name="budget"]') || {}).value || '';
-    setBtn('Отправляем...', true);
+    
     var params = new URLSearchParams();
     params.set('name', name.trim());
     params.set('niche', email.trim());
