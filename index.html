@@ -33,20 +33,31 @@
 
   /* ===== CRITICAL FIX for T396 full-bleed content containers =====
    * 1. position:relative  → artboard can now measure tn-elem's height
-   *    (fixes the big gap and block overlap: artboard was stuck at
-   *    fixed 762/550px; now it grows to match the da-* content inside)
    * 2. height:auto        → remove the hardcoded 762/550px height
-   * 3. left:calc(50% - 50vw - 100px) = -100px on ANY viewport width
-   *    (fixes overflow to the left: was left:calc(50%-600px+-100px)
-   *    which equals -188px on a 1024px laptop)
-   * 4. width:calc(100vw + 200px) → viewport-relative bleed container
-   *    (was fixed 1400px, overflows on small screens) */
+   * 3. left:calc(50%-50vw-100px) = always -100px regardless of viewport
+   * 4. width:calc(100vw+200px)   → viewport-relative bleed container
+   * ================================================================ */
   .t396__artboard .tn-elem[data-field-left-value="-100"] {
     position: relative !important;
     top: auto !important;
     height: auto !important;
     left: calc(50% - 50vw + -100px) !important;
     width: calc(100vw + 200px) !important;
+  }
+
+  /* ===== MOBILE FIX =====
+   * The existing content-level mobile CSS (inside tn-atom <style> tags)
+   * uses  margin-left: 0 !important  which was written assuming tn-elem
+   * starts at the viewport left edge.
+   * Our desktop fix sets tn-elem left: -100px so on mobile (≤640px)
+   * we reset tn-elem to left:0 + width:100vw — then margin-left:0
+   * in the content sections correctly aligns to the viewport edge.
+   * ===================== */
+  @media (max-width: 640px) {
+    .t396__artboard .tn-elem[data-field-left-value="-100"] {
+      left: 0 !important;
+      width: 100vw !important;
+    }
   }
 </style> <link rel="preconnect" href="https://fonts.gstatic.com"> <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Montserrat:wght@100..900&subset=latin,cyrillic&display=swap" rel="stylesheet"> <link rel="stylesheet" href="https://static.tildacdn.pro/css/tilda-forms-1.0.min.css" type="text/css" media="all" onerror="this.loaderr='y';" /> <script nomodule src="https://static.tildacdn.pro/js/tilda-polyfill-1.0.min.js" charset="utf-8"></script> <script type="text/javascript">function t_onReady(func) {if(document.readyState!='loading') {func();} else {document.addEventListener('DOMContentLoaded',func);}}
 function t_onFuncLoad(funcName,okFunc,time) {if(typeof window[funcName]==='function') {okFunc();} else {setTimeout(function() {t_onFuncLoad(funcName,okFunc,time);},(time||100));}}window.tildaApiServiceRootDomain="tildacdn.kz";function t396_initialScale(t){var e=document.getElementById("rec"+t);if(e){var i=e.querySelector(".t396__artboard");if(i){window.tn_scale_initial_window_width||(window.tn_scale_initial_window_width=document.documentElement.clientWidth);var a=window.tn_scale_initial_window_width,r=[],n,l=i.getAttribute("data-artboard-screens");if(l){l=l.split(",");for(var o=0;o<l.length;o++)r[o]=parseInt(l[o],10)}else r=[320,480,640,960,1200];for(var o=0;o<r.length;o++){var d=r[o];a>=d&&(n=d)}var _="edit"===window.allrecords.getAttribute("data-tilda-mode"),c="center"===t396_getFieldValue(i,"valign",n,r),s="grid"===t396_getFieldValue(i,"upscale",n,r),w=t396_getFieldValue(i,"height_vh",n,r),g=t396_getFieldValue(i,"height",n,r),u=!!window.opr&&!!window.opr.addons||!!window.opera||-1!==navigator.userAgent.indexOf(" OPR/");if(!_&&c&&!s&&!w&&g&&!u){var h=parseFloat((a/n).toFixed(3)),f=[i,i.querySelector(".t396__carrier"),i.querySelector(".t396__filter")],v=Math.floor(parseInt(g,10)*h)+"px",p;i.style.setProperty("--initial-scale-height",v);for(var o=0;o<f.length;o++)f[o].style.setProperty("height","var(--initial-scale-height)");t396_scaleInitial__getElementsToScale(i).forEach((function(t){t.style.zoom=h}))}}}}function t396_scaleInitial__getElementsToScale(t){return t?Array.prototype.slice.call(t.children).filter((function(t){return t&&(t.classList.contains("t396__elem")||t.classList.contains("t396__group"))})):[]}function t396_getFieldValue(t,e,i,a){var r,n=a[a.length-1];if(!(r=i===n?t.getAttribute("data-artboard-"+e):t.getAttribute("data-artboard-"+e+"-res-"+i)))for(var l=0;l<a.length;l++){var o=a[l];if(!(o<=i)&&(r=o===n?t.getAttribute("data-artboard-"+e):t.getAttribute("data-artboard-"+e+"-res-"+o)))break}return r}window.TN_SCALE_INITIAL_VER="1.0",window.tn_scale_initial_window_width=null;</script> <script src="https://static.tildacdn.pro/js/tilda-scripts-3.0.min.js" charset="utf-8" defer onerror="this.loaderr='y';"></script> <script src="https://static.tildacdn.pro/js/tilda-lazyload-1.0.min.js" charset="utf-8" async onerror="this.loaderr='y';"></script> <script src="https://static.tildacdn.pro/js/tilda-zero-1.1.min.js" charset="utf-8" async onerror="this.loaderr='y';"></script> <script src="https://static.tildacdn.pro/js/tilda-forms-1.0.min.js" charset="utf-8" async onerror="this.loaderr='y';"></script> <script src="https://static.tildacdn.pro/js/tilda-zero-scale-1.0.min.js" charset="utf-8" async onerror="this.loaderr='y';"></script> <script src="https://static.tildacdn.pro/js/tilda-events-1.0.min.js" charset="utf-8" async onerror="this.loaderr='y';"></script> <!-- nominify begin --><!-- Yandex.Metrika counter --> <script type="text/javascript">
