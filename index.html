@@ -27,7 +27,63 @@ src="https://www.facebook.com/tr?id=1264186965731500&ev=PageView&noscript=1"
   gtag('js', new Date());
 
   gtag('config', 'AW-17671595147');
-</script><!-- nominify end --><script type="text/javascript">window.dataLayer=window.dataLayer||[];</script> <script type="text/javascript">/* opacity hide removed - tilda-blocks JS missing, DOMContentLoaded handler would never fire */</script><style>
+</script><!-- nominify end --><script type="text/javascript">window.dataLayer=window.dataLayer||[];</script> <script type="text/javascript">/* opacity hide removed - tilda-blocks JS missing, DOMContentLoaded handler would never fire */</script>
+<script type="text/javascript">
+/* ===== TILDA POLYFILL =====
+   tilda-blocks-page122915983.js is no longer on CDN.
+   That file normally defines t396_init() which makes all T396 blocks visible.
+   Without it every .t396__artboard stays hidden (display:none / zero height).
+   This polyfill replicates the minimum needed: show the artboard. */
+(function() {
+  function showAllT396Blocks() {
+    var artboards = document.querySelectorAll('.t396__artboard');
+    for (var i = 0; i < artboards.length; i++) {
+      var ab = artboards[i];
+      ab.style.removeProperty('display');
+      ab.style.removeProperty('visibility');
+      ab.style.removeProperty('opacity');
+      ab.style.removeProperty('height');
+      ab.style.removeProperty('min-height');
+      // Make carriers and filters visible too
+      var rec = ab.closest('.t-rec');
+      if (rec) {
+        rec.style.removeProperty('height');
+        rec.style.removeProperty('min-height');
+        rec.style.removeProperty('overflow');
+      }
+    }
+    // Force .t-records visible
+    var records = document.querySelectorAll('.t-records');
+    for (var j = 0; j < records.length; j++) {
+      records[j].style.opacity = '1';
+    }
+  }
+
+  // Stub out t396_init so Tilda's inline calls don't throw
+  if (typeof window.t396_init !== 'function') {
+    window.t396_init = function(recId) {
+      var rec = document.getElementById('rec' + recId);
+      if (!rec) return;
+      var ab = rec.querySelector('.t396__artboard');
+      if (ab) {
+        ab.style.removeProperty('display');
+        ab.style.removeProperty('visibility');
+        ab.style.removeProperty('opacity');
+      }
+    };
+  }
+
+  // Run after DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', showAllT396Blocks);
+  } else {
+    showAllT396Blocks();
+  }
+  // Also run after a short delay as fallback
+  setTimeout(showAllT396Blocks, 300);
+  setTimeout(showAllT396Blocks, 1000);
+})();
+</script><style>
 /* PURE MOBILE COMPACTIONS */
 @media (max-width: 640px) {
   /* Nullify the 100vw breakout hack on all elements since they are structurally free */
