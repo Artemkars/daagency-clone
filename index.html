@@ -52,7 +52,7 @@
 
   <nav>
 
-    <a href="index.html" class="logo"><img loading="lazy" src="img/logo.png?v=3" alt="DA Agency"></a>
+    <a href="/" class="logo"><img loading="lazy" src="img/logo.png?v=3" alt="DA Agency"></a>
 
     <div class="navlinks">
       <a href="services.html">Услуги</a>
@@ -971,7 +971,15 @@ document.querySelectorAll('form').forEach(function(form) {
         if (message) text += "Описание: " + message + "\n";
 
         var webhookUrl = "https://script.google.com/macros/s/AKfycbxp18amN9Fjx-83OH-lGUbtWdzjyhJNTk1xVcJtpBaKlHMnkhs_wlTMdzVIDPADQc1R/exec";
-        var payload = { name: name, phone: phone, service: service, packageChoice: packageChoice, site: site, niche: niche, message: message, raw_text: text };
+        var params = new URLSearchParams();
+        params.append("name", name);
+        params.append("phone", phone);
+        params.append("service", service);
+        params.append("packageChoice", packageChoice);
+        params.append("site", site);
+        params.append("niche", niche);
+        params.append("message", message);
+        params.append("raw_text", text);
         
         var submitBtn = form.querySelector('[type="submit"]') || form.querySelector('button');
         var originalText = submitBtn ? submitBtn.textContent : 'Отправить';
@@ -980,8 +988,7 @@ document.querySelectorAll('form').forEach(function(form) {
         fetch(webhookUrl, {
             method: 'POST',
             mode: 'no-cors',
-            headers: {'Content-Type': 'text/plain;charset=utf-8'},
-            body: JSON.stringify(payload)
+            body: params
         }).then(function(res) {
             if (submitBtn) { submitBtn.textContent = originalText; submitBtn.disabled = false; }
             form.reset();
@@ -1106,7 +1113,15 @@ document.querySelectorAll('form').forEach(function(form) {
         if (message) text += "Описание: " + message + "\n";
 
         var webhookUrl = "https://script.google.com/macros/s/AKfycbxp18amN9Fjx-83OH-lGUbtWdzjyhJNTk1xVcJtpBaKlHMnkhs_wlTMdzVIDPADQc1R/exec";
-        var payload = { name: name, phone: phone, service: service, packageChoice: packageChoice, site: site, niche: niche, message: message, raw_text: text };
+        var params = new URLSearchParams();
+        params.append("name", name);
+        params.append("phone", phone);
+        params.append("service", service);
+        params.append("packageChoice", packageChoice);
+        params.append("site", site);
+        params.append("niche", niche);
+        params.append("message", message);
+        params.append("raw_text", text);
         
         var submitBtn = form.querySelector('[type="submit"]') || form.querySelector('button');
         var originalText = submitBtn ? submitBtn.textContent : 'Отправить';
@@ -1115,8 +1130,7 @@ document.querySelectorAll('form').forEach(function(form) {
         fetch(webhookUrl, {
             method: 'POST',
             mode: 'no-cors',
-            headers: {'Content-Type': 'text/plain;charset=utf-8'},
-            body: JSON.stringify(payload)
+            body: params
         }).then(function(res) {
             if (submitBtn) { submitBtn.textContent = originalText; submitBtn.disabled = false; }
             form.reset();
@@ -1135,6 +1149,7 @@ document.querySelectorAll('form').forEach(function(form) {
 </body>
 
 </html>
+
 
 
 
