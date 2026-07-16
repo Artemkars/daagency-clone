@@ -247,7 +247,7 @@ document.getElementById('hamburger')?.addEventListener('click', function(){ this
       panels.forEach(function(p){ p.classList.remove('active'); });
       tab.classList.add('active');
       document.getElementById('bp-' + idx).classList.add('active');
-    });
+    }));
   });
 })();
 
