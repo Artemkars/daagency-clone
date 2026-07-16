@@ -1,4 +1,4 @@
-:root{
+﻿:root{
   --void:#0A0A0C;
   --surface:#131316;
   --surface2:#1B1B1F;
@@ -1131,9 +1131,9 @@ footer h2{font-size:clamp(35px,5.5vw,64px); max-width:700px;}
   }
   
   /* Hamburger Menu */
-  .nav {
+  .navlinks {
     position: fixed;
-    top: 70px;
+    top: 90px;
     left: 0;
     width: 100%;
     background: rgba(6,6,6,0.98);
@@ -1147,7 +1147,7 @@ footer h2{font-size:clamp(35px,5.5vw,64px); max-width:700px;}
     transition: transform 0.3s ease;
     z-index: 99;
   }
-  .nav.open {
+  .navlinks.open {
     transform: translateY(0);
   }
   .header-btn {
@@ -1171,3 +1171,4 @@ footer h2{font-size:clamp(35px,5.5vw,64px); max-width:700px;}
   .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 }
 .hamburger { display: none; }
+
