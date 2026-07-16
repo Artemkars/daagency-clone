@@ -1240,3 +1240,19 @@ footer h2{font-size:clamp(35px,5.5vw,64px); max-width:700px;}
     margin-right: -10px !important;
   }
 }
+@media (max-width: 768px) {
+  /* Fix Team Grid on About Page */
+  .about-team-grid {
+    grid-template-rows: auto !important;
+  }
+  .about-team-row-1, .about-team-row-2 {
+    grid-template-columns: 1fr !important;
+  }
+  .about-team-row-1 > div, .about-team-row-2 > div {
+    min-height: 350px !important;
+  }
+  .about-team-grid [style*="letter-spacing: 0.12em;"] {
+    letter-spacing: 0.03em !important;
+    font-size: 10px !important;
+  }
+}

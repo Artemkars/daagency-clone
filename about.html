@@ -86,10 +86,10 @@
     </div>
 
     <!-- Галерея команды — 2 ряда -->
-    <div style="display: grid; grid-template-rows: 340px 240px; gap: 14px;">
+    <div class="about-team-grid" style="display: grid; grid-template-rows: 340px 240px; gap: 14px;">
 
       <!-- Верхний ряд: рабочее (широкое) + два портрета -->
-      <div style="display: grid; grid-template-columns: 1.6fr 0.9fr 0.9fr; gap: 14px;">
+      <div class="about-team-row-1" style="display: grid; grid-template-columns: 1.6fr 0.9fr 0.9fr; gap: 14px;">
 
         <!-- Рабочая встреча — широкое -->
         <div style="border-radius: var(--radius); overflow: hidden; border: 1px solid var(--hairline); position: relative;">
@@ -121,7 +121,7 @@
       </div>
 
       <!-- Нижний ряд: две девушки + вся команда -->
-      <div style="display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 14px;">
+      <div class="about-team-row-2" style="display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 14px;">
 
         <!-- Две девушки -->
         <div style="border-radius: var(--radius); overflow: hidden; border: 1px solid var(--hairline); position: relative;">
@@ -340,6 +340,7 @@ document.querySelectorAll('form').forEach(function(form) {
 <script>const hm = document.getElementById('hamburger'); if(hm) { ['click', 'touchstart'].forEach(e => hm.addEventListener(e, function(ev){ ev.preventDefault(); this.classList.toggle('open'); document.querySelector('.navlinks').classList.toggle('open'); })); }</script>
 </body>
 </html>
+
 
 
 
