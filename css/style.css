@@ -1256,3 +1256,11 @@ footer h2{font-size:clamp(35px,5.5vw,64px); max-width:700px;}
     font-size: 10px !important;
   }
 }
+
+/* Global iOS Horizontal Scroll Fix */
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100% !important;
+  position: relative;
+}
+
