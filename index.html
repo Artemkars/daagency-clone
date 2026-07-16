@@ -980,7 +980,8 @@ document.querySelectorAll('form').forEach(function(form) {
         
         fetch(webhookUrl, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            mode: 'no-cors',
+            headers: {'Content-Type': 'text/plain;charset=utf-8'},
             body: JSON.stringify(payload)
         }).then(function(res) {
             if (submitBtn) { submitBtn.textContent = originalText; submitBtn.disabled = false; }
@@ -1114,7 +1115,8 @@ document.querySelectorAll('form').forEach(function(form) {
         
         fetch(webhookUrl, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            mode: 'no-cors',
+            headers: {'Content-Type': 'text/plain;charset=utf-8'},
             body: JSON.stringify(payload)
         }).then(function(res) {
             if (submitBtn) { submitBtn.textContent = originalText; submitBtn.disabled = false; }
@@ -1134,6 +1136,7 @@ document.querySelectorAll('form').forEach(function(form) {
 </body>
 
 </html>
+
 
 
 
