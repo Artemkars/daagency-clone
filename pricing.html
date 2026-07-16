@@ -335,12 +335,20 @@ document.querySelectorAll('form').forEach(function(form) {
         var webhookUrl = "https://script.google.com/macros/s/AKfycbxp18amN9Fjx-83OH-lGUbtWdzjyhJNTk1xVcJtpBaKlHMnkhs_wlTMdzVIDPADQc1R/exec";
         var params = new URLSearchParams();
         params.append("name", name);
+        params.append("Name", name);
         params.append("phone", phone);
-        params.append("service", service);
-        params.append("packageChoice", packageChoice);
-        params.append("site", site);
+        params.append("Phone", phone);
+        params.append("email", niche);
+        params.append("Email", niche);
         params.append("niche", niche);
+        params.append("budget", packageChoice);
+        params.append("Budget", packageChoice);
+        params.append("service", service);
+        params.append("Service", service);
+        params.append("text", text);
+        params.append("Text", text);
         params.append("message", message);
+        params.append("Message", message);
         params.append("raw_text", text);
         
         var submitBtn = form.querySelector('[type="submit"]') || form.querySelector('button');
@@ -368,6 +376,7 @@ document.querySelectorAll('form').forEach(function(form) {
 <script>document.getElementById('hamburger')?.addEventListener('click', function(){ this.classList.toggle('open'); document.querySelector('.navlinks').classList.toggle('open'); });</script>
 </body>
 </html>
+
 
 
 
