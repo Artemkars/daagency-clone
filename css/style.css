@@ -1095,3 +1095,79 @@ footer h2{font-size:clamp(35px,5.5vw,64px); max-width:700px;}
   width: 24px;
   height: 24px;
 }
+
+/* ---------- MOBILE FIXES ---------- */
+@media (max-width: 768px) {
+  /* Benefits block */
+  .benefits-accordion {
+    grid-template-columns: 1fr !important;
+  }
+  .benefit-tabs {
+    flex-direction: row !important;
+    overflow-x: auto;
+    border-right: none !important;
+    border-bottom: 1px solid var(--hairline);
+    white-space: nowrap;
+    padding-bottom: 5px;
+  }
+  .benefit-tab {
+    border-left: none !important;
+    border-bottom: 3px solid transparent;
+    padding: 10px 15px !important;
+    font-size: 16px !important;
+  }
+  .benefit-tab.active {
+    border-bottom: 3px solid var(--green) !important;
+    padding-left: 15px !important;
+  }
+  
+  /* Team block */
+  #team-preview > div > div {
+    grid-template-columns: 1fr !important;
+    gap: 30px !important;
+  }
+  #team-preview .team-photo-frame {
+    aspect-ratio: 16/9 !important;
+  }
+  
+  /* Hamburger Menu */
+  .nav {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background: rgba(6,6,6,0.98);
+    backdrop-filter: blur(10px);
+    flex-direction: column;
+    padding: 30px;
+    gap: 25px;
+    align-items: center;
+    border-bottom: 1px solid var(--hairline);
+    transform: translateY(-150%);
+    transition: transform 0.3s ease;
+    z-index: 99;
+  }
+  .nav.open {
+    transform: translateY(0);
+  }
+  .header-btn {
+    display: none !important;
+  }
+  .hamburger {
+    display: flex !important;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    z-index: 100;
+  }
+  .hamburger span {
+    width: 25px;
+    height: 2px;
+    background: var(--text);
+    transition: 0.3s;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+}
+.hamburger { display: none; }

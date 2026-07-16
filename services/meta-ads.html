@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Реклама в Instagram и Facebook в Алматы — Таргетинг под ключ | DA Agency</title>
-<link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+<link rel="icon" type="image/svg+xml" href="../img/favicon.svg">
 <meta property="og:title" content="DA Agency - Перфоманс маркетинг агентство">
 <meta property="og:description" content="DA Agency - бутик-агентство полного цикла. Настройка рекламы, создание лендингов, сквозная аналитика и аудит отделов продаж.">
 <meta property="og:image" content="https://daagency.kz/img/team_work1.png">
@@ -29,6 +29,7 @@
     </div>
     <a class="nav-cta" href="../index.html#contact">Обсудить проект</a>
   </nav>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
 </header>
 
 <!-- ================= HERO ================= -->
@@ -204,8 +205,11 @@ document.querySelectorAll('form').forEach(function(form) {
     });
 });
 </script>
+<script>document.getElementById('hamburger')?.addEventListener('click', function(){ this.classList.toggle('open'); document.querySelector('.nav').classList.toggle('open'); });</script>
 </body>
 </html>
+
+
 
 
 
