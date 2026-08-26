@@ -501,7 +501,7 @@ section{padding:100px 0;}
 .benefit-panel h3{font-family:'Oswald'; font-size:28px; font-weight:700; text-transform:uppercase;
   margin-bottom:16px; color:var(--text);}
 .benefit-panel p{font-size:16px; color:var(--text-muted); line-height:1.7; max-width:400px;}
-.benefit-panel-num{font-family:'Oswald'; font-size:80px; font-weight:700; color:rgba(83,215,11,0.08);
+.benefit-panel-num{font-family:'Oswald'; font-size:80px; font-weight:700; color:#53D70B; opacity:0.85;
   line-height:1; margin-bottom:12px; display:block;}
 @keyframes fadeInRight{from{opacity:0;transform:translateX(12px);}to{opacity:1;transform:none;}}
 
