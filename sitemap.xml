@@ -1,63 +1,93 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">  <url>
-    <loc>https://daagency.kz/about.html</loc>
-    <lastmod>2026-07-16</lastmod>
-    <changefreq>weekly</changefreq>
-  </url>  <url>
-    <loc>https://daagency.kz/cases.html</loc>
-    <lastmod>2026-07-16</lastmod>
-    <changefreq>weekly</changefreq>
-  </url>  <url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
     <loc>https://daagency.kz/</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-08-26</lastmod>
     <changefreq>weekly</changefreq>
-  </url>  <url>
-    <loc>https://daagency.kz/pricing.html</loc>
-    <lastmod>2026-07-16</lastmod>
-    <changefreq>weekly</changefreq>
-  </url>  <url>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://daagency.kz/about.html</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://daagency.kz/services.html</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-08-26</lastmod>
     <changefreq>weekly</changefreq>
-  </url>  <url>
-    <loc>https://daagency.kz/services/chatbots.html</loc>
-    <lastmod>2026-07-16</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://daagency.kz/cases.html</loc>
+    <lastmod>2026-08-26</lastmod>
     <changefreq>weekly</changefreq>
-  </url>  <url>
-    <loc>https://daagency.kz/services/crm.html</loc>
-    <lastmod>2026-07-16</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://daagency.kz/pricing.html</loc>
+    <lastmod>2026-08-26</lastmod>
     <changefreq>weekly</changefreq>
-  </url>  <url>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://daagency.kz/services/google-ads.html</loc>
-    <lastmod>2026-07-16</lastmod>
-    <changefreq>weekly</changefreq>
-  </url>  <url>
-    <loc>https://daagency.kz/services/landings.html</loc>
-    <lastmod>2026-07-16</lastmod>
-    <changefreq>weekly</changefreq>
-  </url>  <url>
-    <loc>https://daagency.kz/services/linkedin-ads.html</loc>
-    <lastmod>2026-07-16</lastmod>
-    <changefreq>weekly</changefreq>
-  </url>  <url>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://daagency.kz/services/meta-ads.html</loc>
-    <lastmod>2026-07-16</lastmod>
-    <changefreq>weekly</changefreq>
-  </url>  <url>
-    <loc>https://daagency.kz/services/sales-department.html</loc>
-    <lastmod>2026-07-16</lastmod>
-    <changefreq>weekly</changefreq>
-  </url>  <url>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://daagency.kz/services/seo.html</loc>
-    <lastmod>2026-07-16</lastmod>
-    <changefreq>weekly</changefreq>
-  </url>  <url>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://daagency.kz/services/tiktok-ads.html</loc>
-    <lastmod>2026-07-16</lastmod>
-    <changefreq>weekly</changefreq>
-  </url>  <url>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://daagency.kz/services/yandex.html</loc>
-    <lastmod>2026-07-16</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://daagency.kz/services/landings.html</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://daagency.kz/services/sales-department.html</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://daagency.kz/services/chatbots.html</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://daagency.kz/services/crm.html</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://daagency.kz/services/linkedin-ads.html</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>
