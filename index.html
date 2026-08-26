@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="ru">
 
@@ -796,13 +796,13 @@
 
       <div class="footer-contact">
 
-        <div>+7 706 706 2157 (звонок / WhatsApp)</div>
+        <div><a href="https://wa.me/77067062157?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82" target="_blank" style="color:inherit;text-decoration:none;">+7 706 706 2157 (звонок / WhatsApp)</a></div>
 
-        <div>daagency.marketing@gmail.com</div>
+        <div><a href="mailto:daagency.marketing@gmail.com" style="color:inherit;text-decoration:none;">daagency.marketing@gmail.com</a></div>
 
       </div>
 
-      <a class="btn-primary" href="https://wa.me/77067062157" target="_blank">Написать в WhatsApp</a>
+      <a class="btn-primary" href="https://wa.me/77067062157?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82" target="_blank">Написать в WhatsApp</a>
 
     </div>
 
@@ -818,67 +818,35 @@
 
 </footer>
 
-
-
 <script>
-
-  // Анимация счетчиков в полосе статистики — запускается сразу при загрузке страницы
-
+  // Анимация счетчиков в полосе статистики
   (function(){
-
     var counters = document.querySelectorAll('.counter');
-
     if(!counters.length) return;
-
     counters.forEach(function(el){
-
       var targetRaw = el.getAttribute('data-target') || '0';
-
       var target = parseFloat(targetRaw) || 0;
-
       var isDecimal = targetRaw.indexOf('.') !== -1;
-
       var prefix = el.getAttribute('data-prefix') || '';
-
       var suffix = el.getAttribute('data-suffix') || '';
-
       var duration = 1400;
-
       var start = null;
-
       function step(ts){
-
         if(!start) start = ts;
-
         var progress = Math.min((ts - start) / duration, 1);
-
         var value = progress * target;
-
         if(isDecimal) {
-
           el.textContent = prefix + value.toFixed(1) + suffix;
-
         } else {
-
           el.textContent = prefix + Math.floor(value) + suffix;
-
         }
-
         if(progress < 1) requestAnimationFrame(step);
-
         else el.textContent = prefix + targetRaw + suffix;
-
       }
-
       requestAnimationFrame(step);
-
     });
-
   })();
 
-
-
-  
   // Анимация при прокрутке (reveal on scroll)
   (function(){
     var items = document.querySelectorAll('.reveal-on-scroll');
@@ -895,125 +863,25 @@
       observer.observe(item);
     });
   })();
-
-  // Единый перехватчик форм для корректной отправки в WhatsApp
-
-  document.querySelectorAll('form').forEach(function(form) {
-
-    form.addEventListener('submit', function(e) {
-
-      e.preventDefault();
-
-      
-
-      var name = form.querySelector('[name="text_name"]') ? form.querySelector('[name="text_name"]').value : '';
-
-      var phone = form.querySelector('[name="text_phone"]') ? form.querySelector('[name="text_phone"]').value : '';
-
-      var message = form.querySelector('[name="text_message"]') ? form.querySelector('[name="text_message"]').value : '';
-
-      var packageChoice = form.querySelector('[name="text_package"]') ? form.querySelector('[name="text_package"]').value : '';
-
-      var site = form.querySelector('[name="text_site"]') ? form.querySelector('[name="text_site"]').value : '';
-
-      var niche = form.querySelector('[name="text_niche"]') ? form.querySelector('[name="text_niche"]').value : '';
-
-      var service = form.querySelector('[name="text_service"]') ? form.querySelector('[name="text_service"]').value : '';
-
-      var employees = form.querySelector('[name="text_employees"]') ? form.querySelector('[name="text_employees"]').value : '';
-
-      var messenger = form.querySelector('[name="text_messenger"]') ? form.querySelector('[name="text_messenger"]').value : '';
-
-      
-
-      var text = "Новая заявка с сайта DA Agency:\n";
-
-      if (name) text += "Имя: " + name + "\n";
-
-      if (phone) text += "Телефон: " + phone + "\n";
-
-      if (service) text += "Услуга: " + service + "\n";
-
-      if (packageChoice) text += "Пакет: " + packageChoice + "\n";
-
-      if (site) text += "Сайт/Инстаграм: " + site + "\n";
-
-      if (niche) text += "Ниша: " + niche + "\n";
-
-      if (employees) text += "Сотрудников: " + employees + "\n";
-
-      if (messenger) text += "Мессенджер: " + messenger + "\n";
-
-      if (message) text += "Описание: " + message + "\n";
-
-      
-
-            var webhookUrl = "https://script.google.com/macros/s/AKfycbxp18amN9Fjx-83OH-lGUbtWdzjyhJNTk1xVcJtpBaKlHMnkhs_wlTMdzVIDPADQc1R/exec";
-      var payload = {
-          name: name,
-          phone: phone,
-          service: service,
-          packageChoice: packageChoice,
-          site: site,
-          niche: niche,
-          message: message,
-          raw_text: text
-      };
-      
-      var submitBtn = form.querySelector('[type="submit"]') || form.querySelector('button');
-      var originalText = submitBtn ? submitBtn.textContent : 'Отправить';
-      if (submitBtn) { submitBtn.textContent = "Отправка..."; submitBtn.disabled = true; }
-      
-      fetch(webhookUrl, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify(payload)
-      }).then(function(res) {
-          if (submitBtn) { submitBtn.textContent = originalText; submitBtn.disabled = false; }
-          form.reset();
-          var modal = document.getElementById('lead-success-modal');
-          if (modal) { modal.classList.add('active'); } else { alert("Заявка успешно отправлена!"); }
-      }).catch(function(err) {
-          console.error(err);
-          if (submitBtn) { submitBtn.textContent = originalText; submitBtn.disabled = false; }
-          var whatsappUrl = "https://wa.me/77067062157?text=" + encodeURIComponent(text);
-          window.open(whatsappUrl, '_blank');
-      });
-
-    });
-
-  });
-
 </script>
 
-
-
-  <!-- Модальное окно успешной отправки заявки -->
-
-  <div id="lead-success-modal" class="lead-modal">
-
-    <div class="lead-modal-content">
-
-      <div class="lead-modal-icon">
-
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-
-      </div>
-
-      <h3>Заявка отправлена!</h3>
-
-      <p>Спасибо! Мы уже получили вашу заявку. Наш специалист свяжется с вами в течение 15 минут для обсуждения проекта.</p>
-
-      <button class="lead-modal-close" onclick="document.getElementById('lead-success-modal').classList.remove('active')">Отлично</button>
-
+<!-- Модальное окно успешной отправки заявки -->
+<div id="lead-success-modal" class="lead-modal">
+  <div class="lead-modal-content">
+    <div class="lead-modal-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
     </div>
-
+    <h3>Заявка отправлена!</h3>
+    <p>Спасибо! Мы уже получили вашу заявку. Наш специалист свяжется с вами в течение 15 минут для обсуждения проекта.</p>
+    <button class="lead-modal-close" onclick="document.getElementById('lead-success-modal').classList.remove('active')">Отлично</button>
   </div>
+</div>
 
 <!-- Scroll to Top Button -->
 <div id="scroll-to-top" class="scroll-to-top">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </div>
+
 <script>
 // --- Scroll to Top ---
 (function(){
@@ -1030,80 +898,17 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 })();
-</script>
-<script>
-document.querySelectorAll('form').forEach(function(form) {
-    if (form.getAttribute('action') && form.getAttribute('action').includes('wa.me')) {
-        form.removeAttribute('action');
-    }
-    // Only attach if not already attached (avoid duplicates)
-    if (form.dataset.telegramBound) return;
-    form.dataset.telegramBound = 'true';
 
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        var name = form.querySelector('[name="text_name"]') ? form.querySelector('[name="text_name"]').value : '';
-        var phone = form.querySelector('[name="text_phone"]') ? form.querySelector('[name="text_phone"]').value : '';
-        var message = form.querySelector('[name="text_message"]') ? form.querySelector('[name="text_message"]').value : '';
-        var packageChoice = form.querySelector('[name="text_package"]') ? form.querySelector('[name="text_package"]').value : '';
-        var site = form.querySelector('[name="text_site"]') ? form.querySelector('[name="text_site"]').value : '';
-        var niche = form.querySelector('[name="text_niche"]') ? form.querySelector('[name="text_niche"]').value : '';
-        var service = form.querySelector('[name="text_service"]') ? form.querySelector('[name="text_service"]').value : '';
-        
-        var text = "Новая заявка с сайта DA Agency:\n";
-        if (name) text += "Имя: " + name + "\n";
-        if (phone) text += "Телефон: " + phone + "\n";
-        if (service) text += "Услуга: " + service + "\n";
-        if (packageChoice) text += "Пакет: " + packageChoice + "\n";
-        if (site) text += "Сайт/Инстаграм: " + site + "\n";
-        if (niche) text += "Ниша: " + niche + "\n";
-        if (message) text += "Описание: " + message + "\n";
-
-        var webhookUrl = "https://script.google.com/macros/s/AKfycbxp18amN9Fjx-83OH-lGUbtWdzjyhJNTk1xVcJtpBaKlHMnkhs_wlTMdzVIDPADQc1R/exec";
-        var params = new URLSearchParams();
-        params.append("name", name);
-        params.append("Name", name);
-        params.append("phone", phone);
-        params.append("Phone", phone);
-        params.append("email", niche);
-        params.append("Email", niche);
-        params.append("niche", niche);
-        params.append("budget", packageChoice);
-        params.append("Budget", packageChoice);
-        params.append("service", service);
-        params.append("Service", service);
-        params.append("text", text);
-        params.append("Text", text);
-        params.append("message", message);
-        params.append("Message", message);
-        params.append("raw_text", text);
-        
-        var submitBtn = form.querySelector('[type="submit"]') || form.querySelector('button');
-        var originalText = submitBtn ? submitBtn.textContent : 'Отправить';
-        if (submitBtn) { submitBtn.textContent = "Отправка..."; submitBtn.disabled = true; }
-        
-        fetch(webhookUrl, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-            },
-            body: params.toString()
-        }).then(function(res) {
-            if (submitBtn) { submitBtn.textContent = originalText; submitBtn.disabled = false; }
-            form.reset();
-            var modal = document.getElementById('lead-success-modal');
-            if (modal) { modal.classList.add('active'); } else { alert("Заявка успешно отправлена!"); }
-        }).catch(function(err) {
-            console.error(err);
-            if (submitBtn) { submitBtn.textContent = originalText; submitBtn.disabled = false; }
-            var whatsappUrl = "https://wa.me/77067062157?text=" + encodeURIComponent(text);
-            window.open(whatsappUrl, '_blank');
-        });
-    });
-});
+// Hamburger
+const hm = document.getElementById('hamburger');
+if(hm) {
+  ['click', 'touchstart'].forEach(e => hm.addEventListener(e, function(ev){
+    ev.preventDefault();
+    this.classList.toggle('open');
+    document.querySelector('.navlinks').classList.toggle('open');
+  }));
+}
 </script>
-<script>const hm = document.getElementById('hamburger'); if(hm) { ['click', 'touchstart'].forEach(e => hm.addEventListener(e, function(ev){ ev.preventDefault(); this.classList.toggle('open'); document.querySelector('.navlinks').classList.toggle('open'); })); }</script>
 
 <!-- ================= AUDIT POPUP ================= -->
 <div class="audit-popup" id="audit-popup">
@@ -1145,7 +950,6 @@ document.querySelectorAll('form').forEach(function(form) {
   }
   closeBtn.addEventListener('click', function(){ popup.classList.remove('visible'); });
   popup.addEventListener('click', function(e){ if(e.target === popup) popup.classList.remove('visible'); });
-  // Show exactly once after 2 minutes
   setTimeout(showPopup, 120000);
 })();
 
@@ -1160,146 +964,72 @@ document.querySelectorAll('form').forEach(function(form) {
     });
   });
 })();
-</script>
 
-<!-- Scroll to Top Button -->
-<div id="scroll-to-top" class="scroll-to-top">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-</div>
-<script>
-// --- Scroll to Top ---
-(function(){
-  const btn = document.getElementById('scroll-to-top');
-  if(!btn) return;
-  window.addEventListener('scroll', function(){
-    if(window.scrollY > 500) {
-      btn.classList.add('show');
-    } else {
-      btn.classList.remove('show');
-    }
-  });
-  btn.addEventListener('click', function(){
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-})();
-</script>
-<script>
+// --- Единая отправка форм в Telegram и резерв в WhatsApp ---
 document.querySelectorAll('form').forEach(function(form) {
-    if (form.getAttribute('action') && form.getAttribute('action').includes('wa.me')) {
-        form.removeAttribute('action');
-    }
-    // Only attach if not already attached (avoid duplicates)
-    if (form.dataset.telegramBound) return;
-    form.dataset.telegramBound = 'true';
+  if (form.getAttribute('action') && form.getAttribute('action').includes('wa.me')) {
+    form.removeAttribute('action');
+  }
+  if (form.dataset.telegramBound) return;
+  form.dataset.telegramBound = 'true';
 
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        var name = form.querySelector('[name="text_name"]') ? form.querySelector('[name="text_name"]').value : '';
-        var phone = form.querySelector('[name="text_phone"]') ? form.querySelector('[name="text_phone"]').value : '';
-        var message = form.querySelector('[name="text_message"]') ? form.querySelector('[name="text_message"]').value : '';
-        var packageChoice = form.querySelector('[name="text_package"]') ? form.querySelector('[name="text_package"]').value : '';
-        var site = form.querySelector('[name="text_site"]') ? form.querySelector('[name="text_site"]').value : '';
-        var niche = form.querySelector('[name="text_niche"]') ? form.querySelector('[name="text_niche"]').value : '';
-        var service = form.querySelector('[name="text_service"]') ? form.querySelector('[name="text_service"]').value : '';
-        
-        var text = "Новая заявка с сайта DA Agency:\n";
-        if (name) text += "Имя: " + name + "\n";
-        if (phone) text += "Телефон: " + phone + "\n";
-        if (service) text += "Услуга: " + service + "\n";
-        if (packageChoice) text += "Пакет: " + packageChoice + "\n";
-        if (site) text += "Сайт/Инстаграм: " + site + "\n";
-        if (niche) text += "Ниша: " + niche + "\n";
-        if (message) text += "Описание: " + message + "\n";
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var name = form.querySelector('[name="text_name"]') ? form.querySelector('[name="text_name"]').value.trim() : '';
+    var phone = form.querySelector('[name="text_phone"]') ? form.querySelector('[name="text_phone"]').value.trim() : '';
+    var message = form.querySelector('[name="text_message"]') ? form.querySelector('[name="text_message"]').value.trim() : '';
+    var packageChoice = form.querySelector('[name="text_package"]') ? form.querySelector('[name="text_package"]').value : '';
+    var site = form.querySelector('[name="text_site"]') ? form.querySelector('[name="text_site"]').value.trim() : '';
+    var niche = form.querySelector('[name="text_niche"]') ? form.querySelector('[name="text_niche"]').value.trim() : '';
+    var service = form.querySelector('[name="text_service"]') ? form.querySelector('[name="text_service"]').value : '';
 
-        var webhookUrl = "https://script.google.com/macros/s/AKfycbxp18amN9Fjx-83OH-lGUbtWdzjyhJNTk1xVcJtpBaKlHMnkhs_wlTMdzVIDPADQc1R/exec";
-        var params = new URLSearchParams();
-        params.append("name", name);
-        params.append("Name", name);
-        params.append("phone", phone);
-        params.append("Phone", phone);
-        params.append("email", niche);
-        params.append("Email", niche);
-        params.append("niche", niche);
-        params.append("budget", packageChoice);
-        params.append("Budget", packageChoice);
-        params.append("service", service);
-        params.append("Service", service);
-        params.append("text", text);
-        params.append("Text", text);
-        params.append("message", message);
-        params.append("Message", message);
-        params.append("raw_text", text);
-        
-        var submitBtn = form.querySelector('[type="submit"]') || form.querySelector('button');
-        var originalText = submitBtn ? submitBtn.textContent : 'Отправить';
-        if (submitBtn) { submitBtn.textContent = "Отправка..."; submitBtn.disabled = true; }
-        
-        fetch(webhookUrl, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-            },
-            body: params.toString()
-        }).then(function(res) {
-            if (submitBtn) { submitBtn.textContent = originalText; submitBtn.disabled = false; }
-            form.reset();
-            var modal = document.getElementById('lead-success-modal');
-            if (modal) { modal.classList.add('active'); } else { alert("Заявка успешно отправлена!"); }
-        }).catch(function(err) {
-            console.error(err);
-            if (submitBtn) { submitBtn.textContent = originalText; submitBtn.disabled = false; }
-            var whatsappUrl = "https://wa.me/77067062157?text=" + encodeURIComponent(text);
-            window.open(whatsappUrl, '_blank');
-        });
+    var text = "Новая заявка с сайта DA Agency:\n";
+    if (name) text += "Имя: " + name + "\n";
+    if (phone) text += "Телефон: " + phone + "\n";
+    if (service) text += "Услуга: " + service + "\n";
+    if (packageChoice) text += "Пакет: " + packageChoice + "\n";
+    if (site) text += "Сайт/Инстаграм: " + site + "\n";
+    if (niche) text += "Ниша: " + niche + "\n";
+    if (message) text += "Описание: " + message + "\n";
+
+    var webhookUrl = "https://script.google.com/macros/s/AKfycbxp18amN9Fjx-83OH-lGUbtWdzjyhJNTk1xVcJtpBaKlHMnkhs_wlTMdzVIDPADQc1R/exec";
+    var payload = {
+      name: name,
+      phone: phone,
+      service: service,
+      packageChoice: packageChoice,
+      site: site,
+      niche: niche,
+      message: message,
+      raw_text: text
+    };
+
+    var submitBtn = form.querySelector('[type="submit"]') || form.querySelector('button');
+    var originalText = submitBtn ? submitBtn.textContent : 'Отправить';
+    if (submitBtn) { submitBtn.textContent = "Отправка..."; submitBtn.disabled = true; }
+
+    fetch(webhookUrl, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    }).then(function() {
+      if (submitBtn) { submitBtn.textContent = originalText; submitBtn.disabled = false; }
+      form.reset();
+      var modal = document.getElementById('lead-success-modal');
+      if (modal) {
+        modal.classList.add('active');
+      } else {
+        alert("Спасибо! Ваша заявка успешно отправлена. Мы свяжемся с вами в течение 15 минут.");
+      }
+    }).catch(function(err) {
+      console.error(err);
+      if (submitBtn) { submitBtn.textContent = originalText; submitBtn.disabled = false; }
+      var whatsappUrl = "https://wa.me/77067062157?text=" + encodeURIComponent(text);
+      window.location.href = whatsappUrl;
     });
+  });
 });
 </script>
 </body>
-
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
