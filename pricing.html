@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
@@ -272,10 +272,10 @@
     <div class="footer-grid">
       <div class="footer-contact">
         <div><b>Артем Карс</b>, директор</div>
-        <div>+7 706 706 2157 (звонок / WhatsApp)</div>
-        <div>daagency.marketing@gmail.com</div>
+        <div><a href="https://wa.me/77067062157?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82" target="_blank" style="color:inherit;text-decoration:none;">+7 706 706 2157 (звонок / WhatsApp)</a></div>
+        <div><a href="mailto:daagency.marketing@gmail.com" style="color:inherit;text-decoration:none;">daagency.marketing@gmail.com</a></div>
       </div>
-      <a class="btn-primary" href="https://wa.me/77067062157" target="_blank">Написать в WhatsApp</a>
+      <a class="btn-primary" href="https://wa.me/77067062157?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82" target="_blank">Написать в WhatsApp</a>
     </div>
     <div class="footer-copy">
       <span>DA Agency © 2026</span>
@@ -359,20 +359,18 @@ document.querySelectorAll('form').forEach(function(form) {
         fetch(webhookUrl, {
             method: 'POST',
             mode: 'no-cors',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-            },
-            body: params.toString()
-        }).then(function(res) {
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(payload)
+        }).then(function() {
             if (submitBtn) { submitBtn.textContent = originalText; submitBtn.disabled = false; }
             form.reset();
             var modal = document.getElementById('lead-success-modal');
-            if (modal) { modal.classList.add('active'); } else { alert("Заявка успешно отправлена!"); }
+            if (modal) { modal.classList.add('active'); } else { alert("Спасибо! Ваша заявка успешно отправлена. Мы свяжемся с вами в течение 15 минут."); }
         }).catch(function(err) {
             console.error(err);
             if (submitBtn) { submitBtn.textContent = originalText; submitBtn.disabled = false; }
             var whatsappUrl = "https://wa.me/77067062157?text=" + encodeURIComponent(text);
-            window.open(whatsappUrl, '_blank');
+            window.location.href = whatsappUrl;
         });
     });
 });
