@@ -1,6 +1,4 @@
 {
-  "cleanUrls": true,
-  "trailingSlash": false,
   "headers": [
     {
       "source": "/(css|img|js)/(.*)",
@@ -27,13 +25,7 @@
       ]
     },
     {
-      "source": "/",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate, s-maxage=3600" }
-      ]
-    },
-    {
-      "source": "/(.*)\\.html",
+      "source": "/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate, s-maxage=3600" }
       ]
