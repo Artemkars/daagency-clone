@@ -956,6 +956,10 @@ footer h2{font-size:clamp(35px,5.5vw,64px); max-width:700px;}
   .case-detail-card .testimonial{grid-column: span 1;}
 }
 @media (max-width:600px){
+  .case-detail-card{padding: 24px 18px; gap: 24px;}
+  .case-detail-card .meta-info h3{font-size: 24px;}
+  .case-detail-card .results-box{padding: 22px 18px;}
+  .case-detail-card .results-box .num{font-size: 46px;}
   .problems-grid, .services-grid, .benefits-grid, .cases-grid, .pricing-grid{grid-template-columns:1fr;}
   .footer-grid{flex-direction:column; align-items:flex-start;}
   .stats-strip-inner{grid-template-columns: 1fr 1fr;}
