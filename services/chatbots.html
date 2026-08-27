@@ -233,6 +233,17 @@ document.querySelectorAll('form').forEach(function(form) {
         var originalText = submitBtn ? submitBtn.textContent : 'Отправить';
         if (submitBtn) { submitBtn.textContent = "Отправка..."; submitBtn.disabled = true; }
         
+                var payload = {
+            name: name,
+            phone: phone,
+            service: service,
+            packageChoice: packageChoice,
+            site: site,
+            niche: niche,
+            message: message,
+            raw_text: text,
+            text: text
+        };
         fetch(webhookUrl, {
             method: 'POST',
             mode: 'no-cors',
