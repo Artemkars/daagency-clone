@@ -1526,7 +1526,7 @@ html, body {
   background: var(--surface);
   border: 1px solid var(--hairline);
   border-radius: var(--radius);
-  padding: 35px 30px;
+  padding: 30px 28px;
   display: flex;
   flex-direction: column;
   text-decoration: none;
@@ -1542,45 +1542,69 @@ html, body {
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
 }
 
-.blog-card-meta {
+.blog-card-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
-  font-size: 13px;
-  color: var(--text-muted);
-  margin-bottom: 16px;
+  margin-bottom: 18px;
+}
+
+.blog-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
 }
 
 .blog-badge {
-  display: inline-block;
-  background: rgba(83, 215, 11, 0.1);
+  display: inline-flex;
+  align-items: center;
+  background: rgba(83, 215, 11, 0.08);
+  border: 1px solid rgba(83, 215, 11, 0.22);
   color: var(--green);
-  font-size: 12px;
-  font-weight: 600;
-  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 9px;
   border-radius: 4px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.blog-card-reading-time {
+  font-size: 12px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+  background: var(--surface2);
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--hairline);
 }
 
 .blog-card h3 {
-  font-size: 22px;
-  line-height: 1.35;
-  color: var(--text);
-  margin-bottom: 14px;
+  font-family: 'Onest', sans-serif !important;
+  font-size: 19px !important;
+  font-weight: 700 !important;
+  line-height: 1.35 !important;
+  color: var(--text) !important;
+  margin-bottom: 12px !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
   transition: color 0.2s;
 }
 
 .blog-card:hover h3 {
-  color: var(--green);
+  color: var(--green) !important;
 }
 
 .blog-card p {
-  font-size: 15px;
+  font-size: 14.5px;
   color: var(--text-muted);
   line-height: 1.6;
   flex-grow: 1;
-  margin-bottom: 24px;
+  margin-bottom: 22px;
 }
 
 .blog-card-footer {
@@ -1588,10 +1612,20 @@ html, body {
   align-items: center;
   justify-content: space-between;
   border-top: 1px solid var(--hairline);
-  padding-top: 18px;
-  font-size: 14px;
-  font-weight: 600;
+  padding-top: 16px;
+  margin-top: auto;
+  font-size: 13px;
+}
+
+.blog-card-footer .blog-date {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.blog-card-footer .read-more {
   color: var(--green);
+  font-weight: 600;
+  font-size: 13.5px;
 }
 
 /* Article Detail */
